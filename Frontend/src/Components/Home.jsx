@@ -5,12 +5,12 @@ export default function () {
     <div className="flex flex-row bg-gray-600 bg-opacity-25 justify-between pt-8">
       <div className="flex flex-col gap-5  w-fit flex-wrap relative left-14 mt-36">
         <h1 className="text-black text-7xl font-bold">
-          Cook anything with the experts
+          Buy Computer Hardware with us
         </h1>
 
-        <p className="text-gray-700 font-semibold text-lg">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam
+        <p className="text-gray-700 font-semibold text-lg pr-24">
+          Your hardware journey, our helpful hands - discover, shop, and relax
+          while we handle the rest!
         </p>
 
         <div className="flex flex-row justify-start gap-10">
