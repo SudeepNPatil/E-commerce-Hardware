@@ -17,7 +17,7 @@ export default function () {
             <h1 className="text-black font-bold text-3xl">Hardware shop</h1>
           </div>
 
-          <p className="text-gray-600 w-[350px] font-semibold">
+          <p className="text-gray-600 w-[350px] font-semibold mt-2 ml-3">
             Open an account in minutes, get full financial control for much
             longer.
           </p>

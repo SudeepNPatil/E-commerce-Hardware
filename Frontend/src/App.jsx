@@ -3,6 +3,8 @@ import Navbar from './Components/Navbar';
 import Home from './Components/Home';
 import Catogary from './Components/Catogary';
 import Footer from './Components/Footer';
+import Whatwedo from './Components/Whatwedo';
+import Subscribe from './Components/Subscribe';
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
       <Navbar />
       <Home />
       <Catogary />
+      <Whatwedo />
+      <Subscribe />
       <Footer />
     </>
   );
