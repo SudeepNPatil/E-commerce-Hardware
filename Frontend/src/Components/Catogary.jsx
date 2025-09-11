@@ -5,7 +5,7 @@ import Electronic_devices from '../assets/Electronic_devices.png';
 
 export default function () {
   return (
-    <div className="flex flex-col items-center mt-10">
+    <div className="flex flex-col items-center mt-16">
       <h1 className="text-red-600 text-opacity-75 tracking-[10px] font-semibold text-xl text-center">
         FEATURES
       </h1>

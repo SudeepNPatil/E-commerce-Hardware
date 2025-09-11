@@ -1,11 +1,10 @@
 import { BsArrowRightCircleFill } from 'react-icons/bs';
 import Headphone from '../assets/Headphone.png';
-import USB from '../assets/USB.png';
 
 export default function () {
   return (
-    <div className="flex flex-col w-full px-10 mt-40 ">
-      <div className="flex flex-row justify-between  px-10 bg-red-500 bg-opacity-75 w-full h-[450px] rounded-3xl rounded-tr-full">
+    <div className="flex flex-col w-full px-10 mt-40">
+      <div className="flex flex-row justify-between   px-10 bg-red-500 bg-opacity-75 w-full h-[450px] rounded-[80px] rounded-tr-[800px]">
         <div className="flex flex-col justify-center gap-3 ml-10">
           <p className="text-white font-semibold">NEWSLETTER</p>
 
