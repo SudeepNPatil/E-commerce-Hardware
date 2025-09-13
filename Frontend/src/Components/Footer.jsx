@@ -58,8 +58,7 @@ export default function () {
 
       <div className="flex flex-row justify-between px-20 pt-10">
         <p className="text-gray-800">
-          @2025 - Chef's kitchen. Distributed By ThemeWagon and Developed by
-          GetNextjsTemplates
+          @2025 - Computer Hardware developed by Codementor team
         </p>
         <div className="text-gray-800 flex flex-row gap-5">
           <p>Privacy policy</p>

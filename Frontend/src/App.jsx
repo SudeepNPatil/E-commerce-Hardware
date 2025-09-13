@@ -1,19 +1,13 @@
 import React from 'react';
 import Navbar from './Components/Navbar';
-import Home from './Components/Home';
-import Catogary from './Components/Catogary';
 import Footer from './Components/Footer';
-import Whatwedo from './Components/Whatwedo';
-import Subscribe from './Components/Subscribe';
+import { Outlet } from 'react-router-dom';
 
 function App() {
   return (
     <>
       <Navbar />
-      <Home />
-      <Catogary />
-      <Whatwedo />
-      <Subscribe />
+      <Outlet />
       <Footer />
     </>
   );

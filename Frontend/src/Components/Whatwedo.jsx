@@ -48,7 +48,7 @@ export default function Whatwedo() {
           <img
             src={Mouse}
             alt="mouse"
-            className="absolute  -bottom-60 rounded-full -right-10 w-96"
+            className="absolute  -bottom-60 rounded-full right-0 w-96"
           />
         </div>
       </div>

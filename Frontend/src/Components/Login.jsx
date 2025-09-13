@@ -1,0 +1,95 @@
+import { IoPersonAddOutline } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
+
+export default function Login() {
+  return (
+    <div className="flex flex-col justify-center items-center w-screen h-screen">
+      <div className="block">
+        <div className="flex flex-col sm:flex-row rounded-lg bg-white xl:w-[75vw] lg:w-[85vw] sm:w-[100vw] shadow-lg relative">
+          <div className="xl:w-[33%] sm:w-[38%] hidden sm:block rounded-l-lg bg-red-50  h-[580px]">
+            <div className="flex py-10 lg:px-7 md:px-6 sm:ml-2 sm:mt-6 md:mt-0 items-center gap-2 ">
+              <img src={logo} alt="logo" className="w-14 rounded-full " />
+              <h1 className="text-xl font-semibold tracking-wider">
+                Hardware Shop
+              </h1>
+            </div>
+
+            <div className="flex flex-col hover:bg-[#ca414110] hover:rounded-3xl cursor-pointer py-1">
+              <div className="flex flex-wrap gap-2 p-2 items-center">
+                <button className="border-2 w-7 h-7 lg:ml-10 md:ml-6 sm:ml-2  rounded-full border-blue-400">
+                  ✓
+                </button>
+                <h1 className="text-lg font-semibold tracking-wide">Signin</h1>
+              </div>
+              <p className="text-gray-700 lg:ml-[76px] md:ml-[60px] sm:ml-[40px] mt-1 text-base lg:pr-10 sm:pr-3">
+                Signin to Hardware Shop to unlock all the features
+              </p>
+            </div>
+
+            <Link
+              to={`/Signup`}
+              className="flex flex-col  hover:bg-[#ca414110] hover:bg-opacity-40 hover:rounded-3xl cursor-pointer mt-8 py-1"
+            >
+              <div className="flex flex-wrap gap-2 p-2 items-center">
+                <button className="border-2 w-7 h-7 lg:ml-10 md:ml-6 sm:ml-2 rounded-full border-blue-400">
+                  ✓
+                </button>
+                <h1 className="text-lg font-semibold tracking-wide">Signup</h1>
+              </div>
+              <p className="text-gray-700 lg:ml-[76px] md:ml-[60px] sm:ml-[40px] text-base lg:pr-10 sm:pr-3">
+                signup to Hardware Shop to get our membership of the our
+                community
+              </p>
+            </Link>
+          </div>
+
+          <div className="xl:w-[67%] sm:w-[58%] w-[70%] mt-20  sm:my-0  xl:px-40 lg:px-20 md:px-16 sm:px-14 mx-auto">
+            <IoPersonAddOutline size={30} className="mx-auto mt-24" />
+
+            <h1 className="tracking-wider font-semibold text-xl text-center mt-2">
+              Signin
+            </h1>
+
+            <p className="text-sm text-gray-700 text-center mt-2">
+              Please Enter the valid details below
+            </p>
+
+            <form className="flex flex-col gap-1 flex-wrap">
+              <label htmlFor="name" className="mt-8 font-semibold">
+                Email
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="email"
+                className="pl-3 rounded-md  h-10 border outline-none"
+              />
+
+              <label htmlFor="password" className="mt-4 font-semibold">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                className="pl-3 rounded-md  h-10 border outline-none"
+              />
+
+              <button className="h-10 mt-6 hover:bg-red-500 border-red-500 border  rounded-md">
+                Signin
+              </button>
+
+              <p className="text-black text-center mt-6">
+                Can't Signin?{' '}
+                <Link to={`/Signup`} className="text-red-600 cursor-pointer">
+                  Create an Account
+                </Link>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
