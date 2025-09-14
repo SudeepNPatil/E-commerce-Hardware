@@ -108,7 +108,7 @@ export default function Contact() {
 
             <button
               type="button"
-              className="bg-red-500 text-white block h-10 rounded-md mb-4"
+              className="bg-red-500 text-white block h-10 rounded-md mb-4 hover:bg-red-600"
             >
               Submit
             </button>
