@@ -29,9 +29,12 @@ export default function () {
         >
           Sign in
         </Link>
-        <button className="rounded-3xl py-3 hover:text-red-600 hover:text-opacity-75 font-bold px-7 bg-red-500 bg-opacity-90  hover:bg-opacity-20 text-white">
+        <Link
+          to={'/Signup'}
+          className="rounded-3xl py-3 hover:text-red-600 hover:text-opacity-75 block font-bold px-7 bg-red-500 bg-opacity-90  hover:bg-opacity-20 text-white"
+        >
           Sign up
-        </button>
+        </Link>
       </div>
     </div>
   );
