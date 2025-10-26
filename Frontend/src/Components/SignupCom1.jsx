@@ -2,7 +2,13 @@ import React from 'react';
 import { MdOutlineOutlinedFlag } from 'react-icons/md';
 import { FcGoogle } from 'react-icons/fc';
 
-export default function Signupcom1({ setNextStep }) {
+export default function Signupcom1({
+  setNextStep,
+  userinfo,
+  handlechange,
+  validate,
+  setvalidate,
+}) {
   return (
     <div className="xl:w-96 lg:w-[62%] md:w-[60%] sm:w-[60%] w-[100vw] mx-auto pb-10 xl:px-0 lg:px-20 md:px-14 sm:px-12 px-12 sm:mt-0 mt-20">
       <MdOutlineOutlinedFlag
@@ -36,7 +42,10 @@ export default function Signupcom1({ setNextStep }) {
           type="text"
           id="name"
           name="firstname"
+          placeholder="Enter firstname"
+          value={userinfo.firstname}
           className="pl-3 rounded-md h-10 border"
+          onChange={handlechange}
         />
 
         <label htmlFor="name" className="mt-4 font-semibold">
@@ -46,6 +55,9 @@ export default function Signupcom1({ setNextStep }) {
           type="text"
           id="name"
           name="lastname"
+          placeholder="Enter lastname"
+          value={userinfo.lastname}
+          onChange={handlechange}
           className="pl-3 rounded-md h-10 border"
         />
 
@@ -55,12 +67,25 @@ export default function Signupcom1({ setNextStep }) {
         <input
           type="Email"
           id="Email"
-          name="email"
+          name="Email"
+          placeholder="Enter email"
+          value={userinfo.Email}
           className="pl-3 rounded-md h-10 border"
+          onChange={handlechange}
         />
 
+        {validate && <p className="text-red-500 text-sm my-2">{validate}</p>}
+
         <button
-          onClick={(e) => (e.preventDefault(), setNextStep(true))}
+          onClick={(e) => {
+            e.preventDefault();
+            if (!userinfo.Email || !userinfo.firstname || !userinfo.lastname) {
+              setvalidate('⚠️Please enter all the details');
+            } else {
+              setNextStep(true);
+              setvalidate('');
+            }
+          }}
           className={`h-10 mt-6 bg-red-500 hover:bg-red-600 rounded-md`}
         >
           Continue

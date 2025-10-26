@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RiHeartAdd2Line } from 'react-icons/ri';
+import ModalLoading from '../modals/ModalLoading';
 
 export default function () {
   const [data, setdata] = useState([]);
@@ -84,6 +85,8 @@ export default function () {
           </div>
         ))}
       </div>
+
+      {/*   <ModalLoading></ModalLoading> */}
     </div>
   );
 }

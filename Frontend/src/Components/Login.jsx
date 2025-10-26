@@ -1,12 +1,125 @@
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { useState } from 'react';
+import ModalMediam from '../modals/ModalMediam.jsx';
+import ModalLoading from '../modals/ModalLoading';
+import { MdError } from 'react-icons/md';
+import { RxCross1 } from 'react-icons/rx';
+import { MdBlockFlipped } from 'react-icons/md';
+import { TbLockOpen } from 'react-icons/tb';
 
 export default function Login() {
+  const [userinfo, setuserinfo] = useState({
+    Email: '',
+    password: '',
+  });
+  const [ismodalopen, setmodalopen] = useState(false);
+  const [info, setinfo] = useState({
+    logo: '',
+    message: '',
+    moreinfo: '',
+    path: '',
+    content: '',
+  });
+  const [loadingmodal, setloadingmodal] = useState(false);
+  const handlechange = (e) => {
+    const { value, name } = e.target;
+    setuserinfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handlelogin = async (e) => {
+    e.preventDefault();
+    if (!userinfo.Email || !userinfo.password) {
+      setmodalopen(true);
+      return setinfo({
+        logo: (
+          <MdBlockFlipped className="text-6xl font-extrabold mb-5 text-red-500 text-opacity-70 self-center p-2 rounded-lg bg-red-100" />
+        ),
+        message: 'Please Enter Credentials ❗',
+        moreinfo: 'Please use valid credentials to login',
+        path: 'login',
+        content: 'Try again',
+      });
+    }
+    setloadingmodal(true);
+    try {
+      const res = await fetch('http://localhost:5000/User/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userinfo),
+      });
+
+      const data = await res.json();
+
+      setmodalopen(true);
+      setloadingmodal(false);
+
+      if (res.status == 200) {
+        setinfo({
+          logo: (
+            <TbLockOpen className="text-6xl font-extrabold mb-5 text-green-500 self-center p-2 rounded-lg bg-green-100" />
+          ),
+          message: 'Login successfully✅',
+          moreinfo: 'You unlocked some features',
+          path: 'Home',
+          content: 'Go to Dashbord',
+        });
+      } else if (res.status == 400) {
+        setinfo({
+          logo: (
+            <RxCross1 className="text-6xl font-extrabold mb-5 text-red-500 self-center p-2 rounded-lg bg-red-100" />
+          ),
+          message: 'Invalid Emil or Password ⛔',
+          moreinfo: 'Please enter valid email and password',
+          path: 'login',
+          content: 'Try again',
+        });
+      } else if (res.status == 404) {
+        setinfo({
+          logo: (
+            <MdBlockFlipped className="text-6xl font-extrabold mb-5 text-red-500 text-opacity-70 self-center p-2 rounded-lg bg-red-100" />
+          ),
+          message: 'User not found ❗',
+          moreinfo: 'Please sign up and continue login',
+          path: 'signup',
+          content: 'Go to Signup',
+        });
+      } else {
+        setinfo({
+          logo: (
+            <MdError className="text-6xl font-extrabold mb-5 text-red-500 self-center p-2 rounded-lg bg-red-100" />
+          ),
+          message: 'Server Error ❌',
+          moreinfo:
+            'There is server error please wait 2 to 3 minutes and try again',
+          path: 'login',
+          content: 'Try again',
+        });
+      }
+    } catch (err) {
+      console.log('Cant reach to a server', err);
+
+      setloadingmodal(false);
+      setmodalopen(true);
+      setinfo({
+        logo: (
+          <MdError className="text-6xl font-extrabold mb-5 text-red-500 self-center p-2 rounded-lg bg-red-100" />
+        ),
+        message: "Can't reach the server ❗",
+        moreinfo: 'Please check the network connetion',
+        path: 'login',
+        content: 'Try again',
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen">
       <div className="block">
-        <div className="flex flex-col sm:flex-row rounded-lg bg-white xl:w-[75vw] lg:w-[85vw] sm:w-[100vw] shadow-lg relative">
+        <div className="flex flex-col sm:flex-row rounded-lg bg-white xl:max-w-[1000px] lg:w-[85vw] sm:w-[100vw] shadow-lg relative">
           <div className="xl:w-[33%] sm:w-[38%] hidden sm:block rounded-l-lg bg-red-50  h-[580px]">
             <div className="flex py-10 lg:px-7 md:px-6 sm:ml-2 sm:mt-6 md:mt-0 items-center gap-2 ">
               <img src={logo} alt="logo" className="w-14 rounded-full " />
@@ -62,8 +175,11 @@ export default function Login() {
               <input
                 type="text"
                 id="name"
-                name="email"
+                name="Email"
+                value={userinfo.Email}
+                onChange={handlechange}
                 className="pl-3 rounded-md  h-10 border outline-none"
+                placeholder="Enter Email"
               />
 
               <label htmlFor="password" className="mt-4 font-semibold">
@@ -73,10 +189,17 @@ export default function Login() {
                 type="password"
                 id="password"
                 name="password"
+                onChange={handlechange}
+                value={userinfo.password}
                 className="pl-3 rounded-md  h-10 border outline-none"
+                placeholder="Enter password"
               />
 
-              <button className="h-10 mt-6 hover:bg-red-500 border-red-500 border  rounded-md">
+              <button
+                type="button"
+                onClick={handlelogin}
+                className="h-10 mt-6 hover:bg-red-500 border-red-500 border  rounded-md"
+              >
                 Signin
               </button>
 
@@ -89,6 +212,27 @@ export default function Login() {
             </form>
           </div>
         </div>
+
+        <ModalMediam isOpen={ismodalopen} onClose={() => setmodalopen(false)}>
+          <div className="flex flex-col justify-center p-5">
+            {info.logo}
+            <h1 className="text-2xl text-center font-semibold">
+              {info.message}
+            </h1>
+            <p className="text-gray-700 text-base text-center mt-2">
+              {info.moreinfo}
+            </p>
+            <Link
+              to={`/${info.path}`}
+              onClick={() => setmodalopen(false)}
+              className="px-10 py-2 rounded-lg mt-8 bg-black bg-opacity-80 text-white text-center mx-auto"
+            >
+              {info.content}
+            </Link>
+          </div>
+        </ModalMediam>
+
+        <ModalLoading isOpen={loadingmodal}></ModalLoading>
       </div>
     </div>
   );
