@@ -8,7 +8,7 @@ export async function logincontroller(req, res) {
   try {
     const { Email, password } = req.body;
 
-    const user = await User.find({ Email });
+    const user = await User.findOne({ Email });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
     const ismatch = await bcrypt.compare(password, user.password);
@@ -21,6 +21,7 @@ export async function logincontroller(req, res) {
 
     res.status(200).send({ token: token, message: 'user logedin', user: user });
   } catch (err) {
+    console.log(err);
     res.status(500).send({ message: 'internal server error' });
   }
 }
