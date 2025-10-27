@@ -8,6 +8,7 @@ import Home from './Components/Home.jsx';
 import Contact from './Components/Contact.jsx';
 import Login from './Components/Login.jsx';
 import Signup from './Components/Signup.jsx';
+import { LoginContextProvider } from './Context/LoginContext.jsx';
 
 const myrouter = createBrowserRouter([
   {
@@ -43,5 +44,7 @@ const myrouter = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={myrouter} />
+  <LoginContextProvider>
+    <RouterProvider router={myrouter} />
+  </LoginContextProvider>
 );

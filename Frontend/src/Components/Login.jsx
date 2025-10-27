@@ -8,8 +8,11 @@ import { MdError } from 'react-icons/md';
 import { RxCross1 } from 'react-icons/rx';
 import { MdBlockFlipped } from 'react-icons/md';
 import { TbLockOpen } from 'react-icons/tb';
+import { useLogincontext } from '../Context/LoginContext.jsx';
 
 export default function Login() {
+  const { logindata, setlogininfo } = useLogincontext();
+
   const [userinfo, setuserinfo] = useState({
     Email: '',
     password: '',
@@ -53,6 +56,10 @@ export default function Login() {
       });
 
       const data = await res.json();
+
+      console.log(data);
+      setlogininfo(data);
+      localStorage.setItem('token', data.token);
 
       setmodalopen(true);
       setloadingmodal(false);
