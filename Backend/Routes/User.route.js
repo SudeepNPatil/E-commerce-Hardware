@@ -14,7 +14,7 @@ route.post('/signup', signupcontroller);
 
 route.put('/update/:id', authMiddleware, updateusercontroller);
 
-route.delete('/user/:id', authMiddleware, deleteusercontroller);
+route.delete('/:id', authMiddleware, deleteusercontroller);
 
 route.get('/verify', authMiddleware, async (req, res) => {
   const id = req.user.id;

@@ -58,13 +58,14 @@ export async function signupcontroller(req, res) {
 
 export async function deleteusercontroller(req, res) {
   try {
-    const { id } = req.param;
-    const deleteuser = await User.findByIdAndDelate(id);
+    const { id } = req.params;
+    const deleteuser = await User.findByIdAndDelete(id);
 
     if (!deleteuser) return res.status(404).send({ message: 'user not found' });
 
     res.status(200).send({ message: 'User deleted successfully' });
   } catch (err) {
+    console.log(err);
     res.status(500).send({ message: 'Internal server error' });
   }
 }
@@ -73,7 +74,7 @@ export async function deleteusercontroller(req, res) {
 
 export async function updateusercontroller(req, res) {
   try {
-    const { id } = req.param;
+    const { id } = req.params;
     const { firstname, lastname, Email, password } = req.body;
 
     const updateuser = await User.findByIdAndUpdate(
