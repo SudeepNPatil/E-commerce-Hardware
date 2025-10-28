@@ -64,7 +64,7 @@ export default function Signup() {
       setloadingmodal(false);
       setmodalopen(true);
 
-      if (response.status == 201) {
+      if (response.status == 200) {
         setinfo({
           logo: (
             <TbLockOpen className="text-6xl font-extrabold mb-5 text-green-500 self-center p-2 rounded-lg bg-green-100" />

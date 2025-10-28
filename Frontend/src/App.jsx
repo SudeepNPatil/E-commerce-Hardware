@@ -3,9 +3,15 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import { Outlet } from 'react-router-dom';
 import { useLogincontext } from './Context/LoginContext';
+import { useLocation } from 'react-router-dom';
 
 function App() {
   const { loading } = useLogincontext();
+  const location = useLocation();
+
+  const hideFooterRoutes = ['/AccountInfo'];
+
+  const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   if (loading) {
     return (
@@ -19,7 +25,7 @@ function App() {
     <>
       <Navbar />
       <Outlet />
-      <Footer />
+      {!shouldHideFooter && <Footer />}
     </>
   );
 }

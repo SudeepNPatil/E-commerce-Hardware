@@ -56,8 +56,6 @@ export default function Login() {
       });
 
       const data = await res.json();
-
-      console.log(data);
       setlogininfo(data);
       localStorage.setItem('token', data.token);
 
