@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { RiHeartAdd2Line } from 'react-icons/ri';
-import ModalLoading from '../modals/ModalLoading';
 
 export default function () {
   const [data, setdata] = useState([]);
@@ -24,7 +23,7 @@ export default function () {
 
   return (
     <div className="flex flex-col">
-      <div className="bg-red-500 bg-opacity-80 w-full h-52 flex flex-col justify-center items-center">
+      <div className="bg-red-500 bg-opacity-95 w-full h-52 flex flex-col justify-center items-center">
         <h1 className="text-center text-5xl font-bold text-white">
           Computer hardware Products
         </h1>
@@ -85,8 +84,6 @@ export default function () {
           </div>
         ))}
       </div>
-
-      {/*   <ModalLoading></ModalLoading> */}
     </div>
   );
 }

@@ -4,8 +4,72 @@ import { BsTwitterX } from 'react-icons/bs';
 import { FaLinkedin } from 'react-icons/fa';
 import { MdOutlineMail } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { useLogincontext } from '../Context/LoginContext';
+import ModalLogin from '../modals/ModalLogin';
+import ModalLoading from '../modals/ModalLoading';
+import { BiSolidUserX } from 'react-icons/bi';
+import { RxCross2 } from 'react-icons/rx';
 
 export default function Contact() {
+  const { logindata } = useLogincontext();
+  const [infomodal, setinfomodal] = useState(false);
+  const [serverinfo, setserverinfo] = useState(null);
+  const [error, seterror] = useState('');
+  const [modalstate, setmodalstate] = useState(false);
+  const [checklogin, setchecklogin] = useState(false);
+  const [contact, setcontact] = useState({
+    name: '',
+    email: '',
+    number: '',
+    text: '',
+  });
+
+  const handlechange = (e) => {
+    const { name, value } = e.target;
+
+    setcontact((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+
+    if (!contact.name || !contact.number || !contact.email) {
+      seterror('⚠ Please fill all the details..!');
+      return;
+    }
+
+    if (Object.keys(logindata).length > 0) {
+      setmodalstate(true);
+      const token = localStorage.getItem('token');
+
+      let res = await fetch('http://localhost:5000/Contactinfo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify(contact),
+      });
+
+      let result = await res.json();
+
+      setmodalstate(false);
+      setinfomodal(true);
+      setcontact({
+        name: '',
+        email: '',
+        number: '',
+        text: '',
+      });
+      setserverinfo(result.message);
+    } else {
+      setchecklogin(true);
+    }
+  };
+
   return (
     <>
       <div className="flex justify-center items-center my-20">
@@ -15,8 +79,8 @@ export default function Contact() {
               Let's <span className="text-black">Connect </span>
             </h1>
             <p className="sm:mt-6 mt-3 pr-8 sm:pr-0 sm:max-w-96 text-sm sm:text-base">
-              Have some big idea or brand to develop and need help? Then reach
-              out we'd love to hear about your project and provide help
+              Have any doubt about our service ? let me know any thing you need
+              Help from us by filling contact form and we will connet you soon.
             </p>
             <h1 className="text-lg sm:text-xl font-bold mt-6 sm:mt-9">Email</h1>
             <div className="flex inset-0 mt-2 gap-1">
@@ -41,6 +105,8 @@ export default function Contact() {
               type="text"
               id="name"
               name="name"
+              value={contact.name}
+              onChange={handlechange}
               className="border mt-1 mb-4 h-10 rounded-md pl-2 block text-sm"
               placeholder="Enter your Name"
             />
@@ -50,63 +116,44 @@ export default function Contact() {
             <input
               type="Email"
               id="Email"
-              name="Email"
+              name="email"
+              value={contact.email}
+              onChange={handlechange}
               className="border mt-1 mb-4   h-10 rounded-md pl-2 block text-sm"
               placeholder="Enter your Email id"
             />
 
-            <label htmlFor="service">What service are you interested in </label>
+            <label htmlFor="number">Phone Number</label>
 
-            <select
-              name="service"
-              id="service"
-              className="pl-2 h-10 opacity-75 mt-1 mb-4 border rounded-md text-sm"
-            >
-              <option value="select">Select option </option>
-              <option value="Build Project">Build Project</option>
-              <option value="Buy Project">Buy Project</option>
-              <option value="Research Paper">Research Paper</option>
-              <option value="IOT Project">IOT Project</option>
-              <option value="Guidance about Project">
-                Guidance about Project
-              </option>
-              <option value="others">others</option>
-            </select>
+            <input
+              type="number"
+              id="number"
+              name="number"
+              value={contact.number}
+              onChange={handlechange}
+              className="border mt-1 mb-4  h-10 rounded-md pl-2 block text-sm"
+              placeholder="Enter your Phone Number"
+            />
 
-            <label htmlFor="Budget" className="block">
-              Budget{' '}
-            </label>
-
-            <select
-              name="Budget"
-              id="Budget"
-              className="pl-2 h-10 mt-1 mb-4 opacity-75 border rounded-md text-sm"
-            >
-              <option value="choose amount">choose amount</option>
-              <option value="500">Less than 500</option>
-              <option value="800">Less than 800</option>
-              <option value="1000">Less than 1000</option>
-              <option value="1200">Less than 1200</option>
-              <option value="1500">Less than 1500</option>
-              <option value="will decide">will decide while talking</option>
-            </select>
-
-            <label htmlFor="message" className="block">
-              Message{' '}
+            <label htmlFor="text" className="block">
+              Message (optional)
             </label>
 
             <textarea
               name="text"
               id="text"
+              value={contact.text}
+              onChange={handlechange}
               placeholder="write what you want to ask about..."
               className="text-sm  pl-3 pt-2 mt-1 mb-4 min-h-28 border rounded-md"
             ></textarea>
 
-            {/*  {error && (
-                        <p className="text-red-500 text-sm font-normal  mb-4">{error}</p>
-                        )} */}
+            {error && (
+              <p className="text-red-500 text-sm font-normal  mb-4">{error}</p>
+            )}
 
             <button
+              onClick={handlesubmit}
               type="button"
               className="bg-red-500 text-white block h-10 rounded-md mb-4 hover:bg-red-600"
             >
@@ -115,6 +162,41 @@ export default function Contact() {
           </div>
         </div>
       </div>
+
+      {infomodal && (
+        <div className="absolute top-36 left-1/2 -translate-x-1/2 p-5 border-green-500 shadow-green-200 shadow-md h-[70px] bg-white border rounded-md">
+          <RxCross2
+            onClick={() => setinfomodal(false)}
+            className="absolute right-3 top-5 text-2xl cursor-pointer text-gray-500 hover:text-black"
+          ></RxCross2>
+          <p className="mr-16 font-semibold text-xl">{serverinfo}</p>
+        </div>
+      )}
+
+      <ModalLoading isOpen={modalstate}></ModalLoading>
+
+      <ModalLogin isOpen={checklogin} onClose={() => setchecklogin(false)}>
+        <div>
+          <div className="flex flex-col px-2 gap-2">
+            <BiSolidUserX className="self-center text-red-500 text-6xl" />
+
+            <h1 className="text-black opacity-75 font-bold text-2xl text-center">
+              Login Please..!
+            </h1>
+
+            <p className="text-gray-700 text-lg">
+              Please login to Book the your session to discuss
+            </p>
+
+            <Link
+              to={`/Login`}
+              className="py-2 px-2 block text-center border rounded-lg hover:bg-red-500 hover:text-white"
+            >
+              Go to Login
+            </Link>
+          </div>
+        </div>
+      </ModalLogin>
     </>
   );
 }

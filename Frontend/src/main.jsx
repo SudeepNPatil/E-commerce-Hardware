@@ -10,6 +10,7 @@ import Login from './Components/Login.jsx';
 import Signup from './Components/Signup.jsx';
 import { LoginContextProvider } from './Context/LoginContext.jsx';
 import AccountInfo from './Components/AccountInfo.jsx';
+import AboutPage from './Components/About.jsx';
 
 const myrouter = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const myrouter = createBrowserRouter([
       {
         path: '/Products',
         element: <Products />,
+      },
+      {
+        path: '/About',
+        element: <AboutPage />,
       },
       {
         path: '/AccountInfo',

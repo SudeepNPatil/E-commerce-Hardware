@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Home from '../assets/Home.png';
 import Catogary from './Catogary';
 import Subscribe from './Subscribe';
@@ -18,13 +19,19 @@ export default function () {
           </p>
 
           <div className="flex flex-row justify-start gap-10">
-            <button className="bg-red-500 hover:bg-opacity-30 text-white hover:text-red-700 font-bold py-4 px-7 rounded-full">
+            <Link
+              to={`/Products`}
+              className="bg-red-500 hover:bg-opacity-30 text-white hover:text-red-700 font-bold py-4 px-7 rounded-full"
+            >
               Order Now
-            </button>
+            </Link>
 
-            <button className="hover:bg-red-500 bg-red-100 bg-opacity-20 hover:text-white border border-red-500 text-red-700 font-bold py-4 px-7  rounded-full">
+            <Link
+              to={`/About`}
+              className="hover:bg-red-500 bg-red-100 bg-opacity-20 hover:text-white border border-red-500 text-red-700 font-bold py-4 px-7  rounded-full"
+            >
               Explore More
-            </button>
+            </Link>
           </div>
         </div>
 

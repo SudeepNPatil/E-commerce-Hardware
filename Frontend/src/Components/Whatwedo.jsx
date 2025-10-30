@@ -4,6 +4,7 @@ import Mouse from '../assets/Mouse.png';
 import expert1 from '../assets/expert1.png';
 import expert2 from '../assets/expert2.png';
 import expert3 from '../assets/expert3.png';
+import { Link } from 'react-router-dom';
 
 export default function Whatwedo() {
   return (
@@ -41,9 +42,12 @@ export default function Whatwedo() {
             combining hardware sales with expert support.
           </p>
 
-          <button className="py-5 rounded-full px-10 hover:bg-red-500 border border-red-500 text-xl text-red-500 bg-opacity-80 font-semibold hover:text-white text-center mt-12">
+          <Link
+            to={`/About`}
+            className="py-5 inline-block rounded-full px-10 hover:bg-red-500 border border-red-500 text-xl text-red-500 bg-opacity-80 font-semibold hover:text-white text-center mt-12"
+          >
             Learn more
-          </button>
+          </Link>
 
           <img
             src={Mouse}
