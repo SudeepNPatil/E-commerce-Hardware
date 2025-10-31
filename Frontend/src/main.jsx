@@ -11,6 +11,10 @@ import Signup from './Components/Signup.jsx';
 import { LoginContextProvider } from './Context/LoginContext.jsx';
 import AccountInfo from './Components/AccountInfo.jsx';
 import AboutPage from './Components/About.jsx';
+import { ProductTypeContextProvider } from './Context/ProductTypeContext.jsx';
+import { CartContextProvider } from './Context/CartContext.jsx';
+import { WishlistContextProvider } from './Context/WishlistContext.jsx';
+import { OrderContextProvider } from './Context/OrderContext.jsx';
 
 const myrouter = createBrowserRouter([
   {
@@ -54,7 +58,15 @@ const myrouter = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <LoginContextProvider>
-    <RouterProvider router={myrouter} />
-  </LoginContextProvider>
+  <OrderContextProvider>
+    <WishlistContextProvider>
+      <CartContextProvider>
+        <ProductTypeContextProvider>
+          <LoginContextProvider>
+            <RouterProvider router={myrouter} />
+          </LoginContextProvider>
+        </ProductTypeContextProvider>
+      </CartContextProvider>
+    </WishlistContextProvider>
+  </OrderContextProvider>
 );

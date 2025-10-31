@@ -9,6 +9,7 @@ import { IoBagHandleOutline } from 'react-icons/io5';
 import { MdOutlineLogout } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
+import { FiShoppingCart } from 'react-icons/fi';
 
 export default function () {
   const { logindata, setlogininfo } = useLogincontext();
@@ -106,13 +107,19 @@ export default function () {
             <IoBagHandleOutline className="text-3xl" />
             <span className="font-semibold opacity-85">Orders</span>
           </Link>
+
+          <Link className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500">
+            <FiShoppingCart className="text-3xl" />
+            <span className="font-semibold opacity-85">Cart</span>
+          </Link>
+
           <Link className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500">
             <FaRegHeart className="text-3xl" />
             <span className="font-semibold opacity-85">Wishlists</span>
           </Link>
           <Link
             onClick={handleLogout}
-            className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500"
+            className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-red-100 hover:border-l-4 hover:border-l-red-500"
           >
             <MdOutlineLogout className="text-3xl" />
             <span className="font-semibold opacity-85">Logout</span>
