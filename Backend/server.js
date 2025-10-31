@@ -3,6 +3,7 @@ import cors from 'cors';
 import { configDotenv } from 'dotenv';
 import db from './db.js';
 import userRoute from './Routes/User.route.js';
+import contactroute from './Routes/Contact.Route.js';
 
 const app = express();
 
@@ -13,6 +14,8 @@ app.use(express.json());
 db();
 
 app.use('/User', userRoute);
+
+app.use('/Contactinfo', contactroute);
 
 app.listen(process.env.PORT, () => {
   console.log(
