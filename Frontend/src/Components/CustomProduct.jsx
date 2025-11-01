@@ -9,11 +9,13 @@ import {
   powerSupplies,
   coolingSystems,
 } from '../data/readymade_Product.js';
+import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
 
 export default function CustomProduct() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('All');
+  const { setProductType, ProductType } = useProductTypeContext();
 
   // Combine all products with normalized structure
   const allProducts = [
@@ -191,12 +193,23 @@ export default function CustomProduct() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-yellow-50 to-blue-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-red-500 to-red-600 text-white py-12 px-4">
-        <div className="max-w-7xl mx-auto">
+      <div className="bg-gradient-to-r from-red-500 to-red-600 text-white py-12 px-16 flex justify-between">
+        <div className="max-w-7xl">
           <h1 className="text-4xl font-bold mb-2">Our Products</h1>
           <p className="text-red-100">
             Explore our wide range of computer hardware components
           </p>
+        </div>
+        <div className="flex items-center">
+          <select
+            value={ProductType}
+            onChange={(e) => setProductType(e.target.value)}
+            id="info"
+            className=" outline-none text-black bg-white rounded-md px-7 py-2"
+          >
+            <option value="readymade">Readymade</option>
+            <option value="Custom">Custom</option>
+          </select>
         </div>
       </div>
 

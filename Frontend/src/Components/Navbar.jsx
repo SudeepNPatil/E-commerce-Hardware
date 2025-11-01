@@ -103,17 +103,26 @@ export default function () {
             <MdOutlineAccountBalance className="text-3xl" />
             <span className="font-semibold opacity-85">Account info</span>
           </Link>
-          <Link className="flex flex-row gap-5 items-center text-xl pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500">
+          <Link
+            to={`/Orders`}
+            className="flex flex-row gap-5 items-center text-xl pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500"
+          >
             <IoBagHandleOutline className="text-3xl" />
             <span className="font-semibold opacity-85">Orders</span>
           </Link>
 
-          <Link className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500">
+          <Link
+            to={`/Cart`}
+            className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500"
+          >
             <FiShoppingCart className="text-3xl" />
             <span className="font-semibold opacity-85">Cart</span>
           </Link>
 
-          <Link className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500">
+          <Link
+            to={`/Wishlist`}
+            className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500"
+          >
             <FaRegHeart className="text-3xl" />
             <span className="font-semibold opacity-85">Wishlists</span>
           </Link>

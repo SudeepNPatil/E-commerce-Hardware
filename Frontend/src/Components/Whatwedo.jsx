@@ -1,9 +1,9 @@
 import nana from '../assets/try.png';
 import earbuds from '../assets/earbuds.png';
 import Mouse from '../assets/Mouse.png';
-import expert1 from '../assets/expert1.png';
-import expert2 from '../assets/expert2.png';
-import expert3 from '../assets/expert3.png';
+import RajeshKumar from '../assets/RajeshKumar.png';
+import AmitSharma from '../assets/AmitSharma.png';
+import PriyaPatel from '../assets/PriyaPatel.png';
 import { Link } from 'react-router-dom';
 
 export default function Whatwedo() {
@@ -69,7 +69,11 @@ export default function Whatwedo() {
               in
             </div>
             <div className="overflow-hidden rounded-full w-56 h-56">
-              <img src={expert1} alt="expert1" className="object-cover h-56" />
+              <img
+                src={RajeshKumar}
+                alt="expert1"
+                className="object-cover h-56"
+              />
             </div>
           </div>
 
@@ -78,7 +82,11 @@ export default function Whatwedo() {
               in
             </div>
             <div className="overflow-hidden rounded-full w-56 h-56">
-              <img src={expert2} alt="expert2" className="object-cover h-56" />
+              <img
+                src={AmitSharma}
+                alt="expert2"
+                className="object-cover h-56"
+              />
             </div>
           </div>
 
@@ -87,7 +95,11 @@ export default function Whatwedo() {
               in
             </div>
             <div className="overflow-hidden rounded-full w-56 h-56">
-              <img src={expert3} alt="expert2" className="object-cover h-56" />
+              <img
+                src={PriyaPatel}
+                alt="expert2"
+                className="object-cover h-56"
+              />
             </div>
           </div>
         </div>

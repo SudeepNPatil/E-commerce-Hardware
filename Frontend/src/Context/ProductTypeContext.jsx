@@ -4,10 +4,13 @@ import { createContext } from 'react';
 export const ProductTypeContext = createContext();
 
 export const ProductTypeContextProvider = function ({ children }) {
-  const [ProductType, setProductType] = useState('readymade');
+  const [ProductType, setProductType] = useState('');
+  const [ProductPurpose, setProductPurpose] = useState('');
 
   return (
-    <ProductTypeContext.Provider value={{ ProductType, setProductType }}>
+    <ProductTypeContext.Provider
+      value={{ ProductType, setProductType, ProductPurpose, setProductPurpose }}
+    >
       {children}
     </ProductTypeContext.Provider>
   );

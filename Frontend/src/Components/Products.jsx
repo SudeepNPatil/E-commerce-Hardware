@@ -14,11 +14,10 @@ import ReadyMadeProducts from './ReadyMadeProducts.jsx';
 import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
 
 export default function ProductPage() {
-  const { ProductType, setProductType } = useProductTypeContext();
+  const { ProductType, setProductType, ProductPurpose, setProductPurpose } =
+    useProductTypeContext();
   const [modal, setmodal] = useState(true);
   const [step, setStep] = useState(1);
-  const [selectedType, setSelectedType] = useState('');
-  const [selectedPurpose, setSelectedPurpose] = useState('');
 
   const productTypes = [
     {
@@ -69,27 +68,29 @@ export default function ProductPage() {
   ];
 
   const handleTypeSelect = (type) => {
-    setSelectedType(type);
+    setProductType(type);
     setStep(2);
   };
 
   const handlePurposeSelect = (purpose) => {
-    setSelectedPurpose(purpose);
+    setProductPurpose(purpose);
   };
 
   const handleSubmit = () => {
-    console.log(selectedType);
-    console.log(typeof selectedType);
     setmodal(false);
   };
 
   const handleBack = () => {
     setStep(1);
-    setSelectedPurpose('');
+    setProductPurpose('');
   };
 
   const handleReset = () => {
-    setStep(1);
+    if (!ProductPurpose && !ProductType) {
+      setProductPurpose('general');
+      setProductType('custom');
+    }
+
     setmodal(false);
   };
 
@@ -219,7 +220,7 @@ export default function ProductPage() {
                           key={type.id}
                           onClick={() => handleTypeSelect(type.id)}
                           className={`p-8 rounded-2xl border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-left ${
-                            selectedType === type.id
+                            ProductType === type.id
                               ? `${colors.selectedBg} ${colors.selectedBorder} shadow-lg`
                               : `border-gray-200 ${colors.hoverBg}`
                           }`}
@@ -264,7 +265,7 @@ export default function ProductPage() {
                             handlePurposeSelect(purpose.id), handleSubmit()
                           )}
                           className={`p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-left ${
-                            selectedPurpose === purpose.id
+                            ProductPurpose === purpose.id
                               ? `${colors.selectedBg} ${colors.selectedBorder} shadow-lg`
                               : `border-gray-200 ${colors.hoverBg}`
                           }`}
@@ -291,12 +292,12 @@ export default function ProductPage() {
         </div>
       )}
 
-      {!modal && selectedType && selectedPurpose && (
+      {!modal && ProductType && ProductPurpose && (
         <>
-          {selectedType === 'custom' ? (
-            <CustomProduct purpose={selectedPurpose} />
+          {ProductType === 'Custom' ? (
+            <CustomProduct purpose={ProductPurpose} />
           ) : (
-            <ReadyMadeProducts purpose={selectedPurpose} />
+            <ReadyMadeProducts purpose={ProductPurpose} />
           )}
         </>
       )}

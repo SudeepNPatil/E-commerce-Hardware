@@ -11,9 +11,7 @@ export const WishlistContextProvider = ({ children }) => {
   };
 
   const RemoveWishlistItem = (item) => {
-    const afterremove = WishlistItem.filter(
-      (filitem) => filitem.projectId != item.projectId
-    );
+    const afterremove = WishlistItem.filter((filitem) => filitem.id != item.id);
 
     setWishlistItem(afterremove);
   };

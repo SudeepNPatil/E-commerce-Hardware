@@ -15,6 +15,11 @@ import { ProductTypeContextProvider } from './Context/ProductTypeContext.jsx';
 import { CartContextProvider } from './Context/CartContext.jsx';
 import { WishlistContextProvider } from './Context/WishlistContext.jsx';
 import { OrderContextProvider } from './Context/OrderContext.jsx';
+import ReadymadeProductDetailPage from './Components/ReadymadeProductdetailpage.jsx';
+import CartPage from './Components/ReadymadeCartPage.jsx';
+import WishlistPage from './Components/ReadymadeWishlistpage.jsx';
+import CheckoutFlow from './Components/CheckoutFlow.jsx';
+import OrdersPage from './Components/OrdersPage.jsx';
 
 const myrouter = createBrowserRouter([
   {
@@ -38,12 +43,32 @@ const myrouter = createBrowserRouter([
         element: <Products />,
       },
       {
+        path: '/Products/:type/:id',
+        element: <ReadymadeProductDetailPage />,
+      },
+      {
+        path: '/Checkout',
+        element: <CheckoutFlow />,
+      },
+      {
         path: '/About',
         element: <AboutPage />,
       },
       {
         path: '/AccountInfo',
         element: <AccountInfo />,
+      },
+      {
+        path: '/Orders',
+        element: <OrdersPage />,
+      },
+      {
+        path: '/Cart',
+        element: <CartPage />,
+      },
+      {
+        path: '/Wishlist',
+        element: <WishlistPage />,
       },
     ],
   },

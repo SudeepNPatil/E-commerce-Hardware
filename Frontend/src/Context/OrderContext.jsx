@@ -10,7 +10,7 @@ export function OrderContextProvider({ children }) {
   };
 
   const RemoveFromOrder = (id) => {
-    const Orderlist = Order.filter((filitem) => filitem.projectId != id);
+    const Orderlist = Order.filter((filitem) => filitem?.product?.id != id);
 
     console.log(Orderlist);
     setOrder(Orderlist);

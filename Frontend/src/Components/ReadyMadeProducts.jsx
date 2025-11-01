@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Search,
   Filter,
@@ -15,12 +16,14 @@ import {
   gamingLaptops,
   Generateuse,
 } from '../data/readymade_Product.js';
+import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
 
 export default function ReadyMadeProducts({ purpose }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('All');
   const [priceRange, setPriceRange] = useState('All');
   const [selectedPurpose, setSelectedPurpose] = useState(purpose || 'general');
+  const { setProductType, ProductType } = useProductTypeContext();
 
   // Select correct product list
   const getProductsByPurpose = () => {
@@ -109,7 +112,10 @@ export default function ReadyMadeProducts({ purpose }) {
         : 'https://via.placeholder.com/300x200?text=No+Image';
 
     return (
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group">
+      <Link
+        to={`/Products/${product?.subcategory}/${product?.id}`}
+        className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group"
+      >
         <div className="relative h-64 bg-gray-100 overflow-hidden">
           <img
             src={imgSrc}
@@ -204,7 +210,7 @@ export default function ReadyMadeProducts({ purpose }) {
             </button>
           </div>
         </div>
-      </div>
+      </Link>
     );
   };
 
@@ -227,7 +233,8 @@ export default function ReadyMadeProducts({ purpose }) {
 
           <div className="flex items-center">
             <select
-              name="some"
+              value={ProductType}
+              onChange={(e) => setProductType(e.target.value)}
               id="info"
               className=" outline-none text-black bg-white rounded-md px-7 py-2"
             >

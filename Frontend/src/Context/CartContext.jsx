@@ -11,9 +11,7 @@ export const CartContextProvider = ({ children }) => {
   };
 
   const RemoveCartItem = (item) => {
-    const afterremove = Cartitem.filter(
-      (filitem) => filitem.projectId != item.projectId
-    );
+    const afterremove = Cartitem.filter((filitem) => filitem.id != item.id);
 
     setCartitem(afterremove);
   };

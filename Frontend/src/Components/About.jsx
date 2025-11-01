@@ -47,8 +47,8 @@ export default function AboutPage() {
               Whether you're a gamer, professional, developer, or tech
               enthusiast, we provide both ready-made and custom-built solutions.
               From individual components like processors, RAM, motherboards, and
-              microcontrollers to complete laptops, desktops, and mobile devices
-              - we've got it all under one roof.
+              microcontrollers to complete laptops, desktops. - we've got it all
+              under one roof.
             </p>
           </div>
         </section>
@@ -57,8 +57,8 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
             Our Product Range
           </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-red-500 hover:shadow-xl transition-shadow">
+          <div className="grid md:grid-cols-2 pl-20">
+            <div className="bg-white rounded-2xl max-w-96 shadow-lg p-8 border-t-4 border-red-500 hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mb-4">
                 <Cpu className="text-red-500" size={36} />
               </div>
@@ -76,7 +76,7 @@ export default function AboutPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-blue-500 hover:shadow-xl transition-shadow">
+            <div className="bg-white rounded-2xl max-w-96 shadow-lg p-8 border-t-4 border-blue-500 hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-4">
                 <Monitor className="text-blue-500" size={36} />
               </div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
               </ul>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-yellow-500 hover:shadow-xl transition-shadow">
+            {/* <div className="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-yellow-500 hover:shadow-xl transition-shadow">
               <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mb-4">
                 <Smartphone className="text-yellow-600" size={36} />
               </div>
@@ -108,7 +108,7 @@ export default function AboutPage() {
                 <li>• Camera Modules</li>
                 <li>• Mobile Components</li>
               </ul>
-            </div>
+            </div> */}
           </div>
         </section>
 
