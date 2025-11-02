@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
   Filter,
@@ -17,13 +17,18 @@ import {
   Generateuse,
 } from '../data/readymade_Product.js';
 import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
+import { useCartContext } from '../Context/CartContext.jsx';
+import ModalMediam from '../modals/ModalMediam.jsx';
 
 export default function ReadyMadeProducts({ purpose }) {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
   const [selectedBrand, setSelectedBrand] = useState('All');
   const [priceRange, setPriceRange] = useState('All');
   const [selectedPurpose, setSelectedPurpose] = useState(purpose || 'general');
   const { setProductType, ProductType } = useProductTypeContext();
+  const { addToCart } = useCartContext();
+  const [modal, setmodal] = useState(false);
 
   // Select correct product list
   const getProductsByPurpose = () => {
@@ -110,6 +115,11 @@ export default function ReadyMadeProducts({ purpose }) {
         : typeof product.imageUrls === 'string'
         ? product.imageUrls
         : 'https://via.placeholder.com/300x200?text=No+Image';
+
+    const handleaddtocart = (product) => {
+      addToCart(product);
+      setmodal(true);
+    };
 
     return (
       <Link
@@ -204,7 +214,14 @@ export default function ReadyMadeProducts({ purpose }) {
             <p className="text-2xl font-bold text-red-500">
               ₹{product?.price || 0}
             </p>
-            <button className="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 rounded-lg font-semibold transition-colors flex items-center gap-2 shadow-md">
+            <button
+              onClick={(e) => {
+                e.stopPropagation(),
+                  e.preventDefault(),
+                  handleaddtocart(product);
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white px-6 py-2.5 rounded-lg font-semibold transition-colors flex items-center gap-2 shadow-md"
+            >
               <ShoppingCart size={18} />
               Add
             </button>
@@ -376,6 +393,49 @@ export default function ReadyMadeProducts({ purpose }) {
           </div>
         )}
       </div>
+
+      <ModalMediam isOpen={modal} onClose={() => setmodal(false)}>
+        <div className="flex flex-col items-center text-center">
+          <div className="w-16 h-16 flex items-center justify-center rounded-full bg-red-100 mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-8 w-8 text-red-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+
+          <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+            Product Added to Cart!
+          </h2>
+          <p className="text-gray-500 mb-6">
+            Your item has been successfully added to your cart.
+          </p>
+
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate('/Cart')}
+              className="px-14 py-2 rounded-lg bg-blue-500 text-white font-semibold hover:bg-blue-600 shadow-md transition-all"
+            >
+              View Cart
+            </button>
+            <button
+              onClick={() => setmodal(false)}
+              className="px-5 py-2 rounded-lg bg-yellow-400 text-gray-800 font-semibold hover:bg-yellow-500 shadow-md transition-all"
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </ModalMediam>
     </div>
   );
 }

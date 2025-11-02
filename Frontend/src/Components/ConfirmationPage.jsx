@@ -14,11 +14,12 @@ import {
   Star,
   ShoppingBag,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ConfirmationPage = ({ orderDetails }) => {
   const [showAnimation, setShowAnimation] = useState(true);
   const [showConfetti, setShowConfetti] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Hide animation after 3 seconds
@@ -491,7 +492,7 @@ const ConfirmationPage = ({ orderDetails }) => {
                 Download Invoice
               </button>
               <button
-                onClick={() => (window.location.href = '/')}
+                onClick={() => navigate('/Products')}
                 className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
               >
                 <ShoppingBag className="w-5 h-5" />

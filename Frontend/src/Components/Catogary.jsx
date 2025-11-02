@@ -1,7 +1,7 @@
 import { IoIosArrowForward } from 'react-icons/io';
 import Computer_Hardware from '../assets/Computer_Hardware.jpg';
-import Accessories from '../assets/Accessories.png';
-import Electronic_devices from '../assets/Electronic_devices.png';
+import readymade from '../assets/readymade.png';
+import { Link } from 'react-router-dom';
 
 export default function () {
   return (
@@ -29,37 +29,37 @@ export default function () {
           <p className="text-gray-700 px-10 font-semibold text-center mt-2">
             Core parts that make up a computer system
           </p>
-          <a
-            href="#"
+          <Link
+            to={`/Products`}
             className="hover:underline hover:underline-offset-4  text-red-600  text-xl block mt-2 text-center font-semibold"
           >
             Lear More <IoIosArrowForward className="text-xl inline-block" />
-          </a>
+          </Link>
         </div>
 
         <div className="bg-gradient-to-b from-gray-100 to-white w-80 h-52 rounded-t-3xl relative mt-14">
-          <div className="absolute -top-[85px] left-1/2 -translate-x-1/2 w-36 h-36 bg-white shadow-2xl rounded-full flex flex-col items-center justify-center">
+          <div className="absolute p-3 -top-[85px] left-1/2 -translate-x-1/2 w-36 h-36 bg-white shadow-2xl rounded-full flex flex-col items-center justify-center">
             <img
-              src={Electronic_devices}
+              src={readymade}
               alt="ComputerHardware"
-              className="object-contain rounded-full"
+              className="object-contain w-full h-full"
             />
           </div>
           <h1 className="text-center text-2xl font-bold text-black mt-20">
-            Electronic Devices
+            Readymade Products
           </h1>
           <p className="text-gray-700 px-10 font-semibold text-center mt-2">
-            General consumer electronics, not limited to computers
+            General consumer electronics, limited to Laptop and desktop
           </p>
-          <a
-            href="#"
+          <Link
+            to={`/Products`}
             className="hover:underline hover:underline-offset-4  text-red-600  text-xl block mt-2 text-center font-semibold"
           >
             Lear More <IoIosArrowForward className="text-xl inline-block" />
-          </a>
+          </Link>
         </div>
 
-        <div className="bg-gradient-to-b from-gray-100 to-white w-80 h-52 rounded-t-3xl relative mt-14">
+        {/* <div className="bg-gradient-to-b from-gray-100 to-white w-80 h-52 rounded-t-3xl relative mt-14">
           <div className="absolute -top-[85px] left-1/2 -translate-x-1/2 w-36 h-36 bg-white shadow-2xl rounded-full flex flex-col items-center justify-center">
             <img
               src={Accessories}
@@ -79,7 +79,7 @@ export default function () {
           >
             Lear More <IoIosArrowForward className="text-xl inline-block" />
           </a>
-        </div>
+        </div> */}
       </div>
     </div>
   );

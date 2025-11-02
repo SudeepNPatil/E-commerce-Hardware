@@ -28,7 +28,7 @@ export default function ProductPage() {
       color: 'red',
     },
     {
-      id: 'custom',
+      id: 'Custom',
       title: 'Custom Products',
       description: 'Build your own custom system with components you choose',
       icon: Wrench,

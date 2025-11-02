@@ -19,7 +19,12 @@ import ReadymadeProductDetailPage from './Components/ReadymadeProductdetailpage.
 import CartPage from './Components/ReadymadeCartPage.jsx';
 import WishlistPage from './Components/ReadymadeWishlistpage.jsx';
 import CheckoutFlow from './Components/CheckoutFlow.jsx';
-import OrdersPage from './Components/OrdersPage.jsx';
+import CheckoutPage from './Components/CustomCheoutaddressPage.jsx';
+import {
+  CustomOrderContext,
+  CustomOrderContextProvider,
+} from './Context/CustomOrderContext.jsx';
+import Orders from './Components/Orders.jsx';
 
 const myrouter = createBrowserRouter([
   {
@@ -60,7 +65,7 @@ const myrouter = createBrowserRouter([
       },
       {
         path: '/Orders',
-        element: <OrdersPage />,
+        element: <Orders />,
       },
       {
         path: '/Cart',
@@ -69,6 +74,10 @@ const myrouter = createBrowserRouter([
       {
         path: '/Wishlist',
         element: <WishlistPage />,
+      },
+      {
+        path: '/Cheoutaddress',
+        element: <CheckoutPage />,
       },
     ],
   },
@@ -83,15 +92,17 @@ const myrouter = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <OrderContextProvider>
-    <WishlistContextProvider>
-      <CartContextProvider>
-        <ProductTypeContextProvider>
-          <LoginContextProvider>
-            <RouterProvider router={myrouter} />
-          </LoginContextProvider>
-        </ProductTypeContextProvider>
-      </CartContextProvider>
-    </WishlistContextProvider>
-  </OrderContextProvider>
+  <CustomOrderContextProvider>
+    <OrderContextProvider>
+      <WishlistContextProvider>
+        <CartContextProvider>
+          <ProductTypeContextProvider>
+            <LoginContextProvider>
+              <RouterProvider router={myrouter} />
+            </LoginContextProvider>
+          </ProductTypeContextProvider>
+        </CartContextProvider>
+      </WishlistContextProvider>
+    </OrderContextProvider>
+  </CustomOrderContextProvider>
 );

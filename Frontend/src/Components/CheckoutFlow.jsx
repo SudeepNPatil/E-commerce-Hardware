@@ -1,4 +1,3 @@
-// CheckoutFlow.js
 import React, { useState } from 'react';
 import CheckOutAddressPage from './CheckOutAddressPage.jsx';
 import PaymentPage from './PaymentPage.jsx';
@@ -9,17 +8,17 @@ import { useOrderContext } from '../Context/OrderContext.jsx';
 const CheckoutFlow = ({ quantity = 1 }) => {
   const location = useLocation();
   const product = location.state;
-  const [currentStep, setCurrentStep] = useState(1); // 1: Address, 2: Payment, 3: Confirmation
+  const [currentStep, setCurrentStep] = useState(1);
   const [orderDetails, setOrderDetails] = useState(null);
 
   const { addToOrder } = useOrderContext();
   const handleAddressContinue = (details) => {
     setOrderDetails(details);
-    setCurrentStep(2); // Move to payment
+    setCurrentStep(2);
   };
 
   const handlePaymentBack = () => {
-    setCurrentStep(1); // Back to address
+    setCurrentStep(1);
   };
 
   const handlePaymentConfirm = (completeOrder) => {

@@ -10,9 +10,11 @@ import {
   Percent,
 } from 'lucide-react';
 import { useCartContext } from '../Context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const CartPage = () => {
   const { Cartitem, RemoveCartItem, clearcart } = useCartContext();
+  const navigate = useNavigate();
   const [quantities, setQuantities] = useState(
     Cartitem.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {})
   );
@@ -70,7 +72,8 @@ const CartPage = () => {
       total,
       appliedCoupon,
     });
-    alert('Proceeding to checkout...');
+
+    navigate('/Checkout', { state: Cartitem[0] });
   };
 
   if (Cartitem.length === 0) {

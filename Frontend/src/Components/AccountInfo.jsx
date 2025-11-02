@@ -118,7 +118,7 @@ export default function AccountInfoPage() {
             </div>
           </div>
         </div>
-
+        {/* 
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-6">
           <div className="flex items-center gap-3 mb-6">
             <Package className="text-red-500" size={28} />
@@ -158,7 +158,7 @@ export default function AccountInfoPage() {
           ) : (
             <p className="text-gray-500 text-center py-8">No orders yet</p>
           )}
-        </div>
+        </div> */}
 
         {/* Delete Account Section */}
         <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-red-200">
