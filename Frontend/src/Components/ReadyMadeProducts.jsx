@@ -19,6 +19,8 @@ import {
 import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
 import { useCartContext } from '../Context/CartContext.jsx';
 import ModalMediam from '../modals/ModalMediam.jsx';
+import ModalLogin from '../modals/ModalLogin.jsx';
+import { MdError } from 'react-icons/md';
 
 export default function ReadyMadeProducts({ purpose }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,6 +31,7 @@ export default function ReadyMadeProducts({ purpose }) {
   const { setProductType, ProductType } = useProductTypeContext();
   const { addToCart } = useCartContext();
   const [modal, setmodal] = useState(false);
+  const [loginmodal, setloginmodal] = useState(false);
 
   // Select correct product list
   const getProductsByPurpose = () => {
@@ -117,8 +120,13 @@ export default function ReadyMadeProducts({ purpose }) {
         : 'https://via.placeholder.com/300x200?text=No+Image';
 
     const handleaddtocart = (product) => {
-      addToCart(product);
-      setmodal(true);
+      let token = localStorage.getItem('token');
+      if (token) {
+        addToCart(product);
+        setmodal(true);
+      } else {
+        setloginmodal(true);
+      }
     };
 
     return (
@@ -436,6 +444,25 @@ export default function ReadyMadeProducts({ purpose }) {
           </div>
         </div>
       </ModalMediam>
+
+      <ModalLogin isOpen={loginmodal} onClose={() => setloginmodal(false)}>
+        <div className="flex flex-col justify-center items-center gap-2">
+          <MdError size={60} className="text-center text-red-600" />
+          <h1 className="text-center text-2xl text-black font-semibold">
+            Your are not loged in yet !
+          </h1>
+          <p className="text-gray-700 text-center">
+            You need login to add to cart and order your products , please login
+            and continue.
+          </p>
+          <Link
+            to={`/login`}
+            className="text-white text-center bg-red-500 w-full py-2 mt-2 hover:bg-red-300 hover:text-red-500 hover:font-semibold rounded-xl"
+          >
+            Login
+          </Link>
+        </div>
+      </ModalLogin>
     </div>
   );
 }

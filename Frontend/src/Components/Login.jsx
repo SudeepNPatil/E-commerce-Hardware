@@ -58,7 +58,6 @@ export default function Login() {
       const data = await res.json();
       setlogininfo(data);
       localStorage.setItem('token', data.token);
-
       setmodalopen(true);
       setloadingmodal(false);
 

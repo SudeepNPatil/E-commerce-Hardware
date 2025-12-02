@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   Check,
   AlertCircle,
@@ -25,6 +25,8 @@ import {
   Keyboards,
   Mice,
 } from '../data/readymade_Product.js';
+import { MdError } from 'react-icons/md';
+import ModalLogin from '../modals/ModalLogin.jsx';
 
 const CustomProduct = () => {
   const [selectedComponents, setSelectedComponents] = useState({
@@ -46,6 +48,7 @@ const CustomProduct = () => {
   const [compatibilityIssues, setCompatibilityIssues] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [detailModal, setDetailModal] = useState(null);
+  const [loginmodal, setloginmodal] = useState(false);
 
   console.log(selectedComponents);
 
@@ -184,10 +187,15 @@ const CustomProduct = () => {
   }, [selectedComponents]);
 
   const handleSelectComponent = (category, component) => {
-    setSelectedComponents((prev) => ({
-      ...prev,
-      [category]: component,
-    }));
+    let token = localStorage.getItem('token');
+    if (token) {
+      setSelectedComponents((prev) => ({
+        ...prev,
+        [category]: component,
+      }));
+    } else {
+      setloginmodal(true);
+    }
   };
 
   const handleRemoveComponent = (category) => {
@@ -632,6 +640,25 @@ const CustomProduct = () => {
           onClose={() => setDetailModal(null)}
         />
       )}
+
+      <ModalLogin isOpen={loginmodal} onClose={() => setloginmodal(false)}>
+        <div className="flex flex-col justify-center items-center gap-2">
+          <MdError size={60} className="text-center text-red-600" />
+          <h1 className="text-center text-2xl text-black font-semibold">
+            Your are not loged in yet !
+          </h1>
+          <p className="text-gray-700 text-center">
+            You need login to add to cart and order your products , please login
+            and continue.
+          </p>
+          <Link
+            to={`/login`}
+            className="text-white text-center bg-red-500 w-full py-2 mt-2 hover:bg-red-300 hover:text-red-500 hover:font-semibold rounded-xl"
+          >
+            Login
+          </Link>
+        </div>
+      </ModalLogin>
     </div>
   );
 };
