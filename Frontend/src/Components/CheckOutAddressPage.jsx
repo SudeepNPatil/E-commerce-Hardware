@@ -33,6 +33,12 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
   const [selectedTechnician, setSelectedTechnician] = useState(null);
   const [skipTechnician, setSkipTechnician] = useState(false);
 
+  const [showSlotModal, setShowSlotModal] = useState(false);
+  const [activeTechnicianForSlot, setActiveTechnicianForSlot] = useState(null);
+
+  // Saved slot
+  const [technicianSlots, setTechnicianSlots] = useState({});
+
   // Validation State
   const [errors, setErrors] = useState({});
 
@@ -112,8 +118,10 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
       address,
       technician: skipTechnician
         ? null
-        : technicians.find((t) => t.id === selectedTechnician),
-      timestamp: new Date().toISOString(),
+        : {
+            ...technicians.find((t) => t.id === selectedTechnician),
+            slot: technicianSlots[selectedTechnician] || null,
+          },
     };
 
     console.log('Order Details:', orderDetails);
@@ -443,6 +451,7 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
                           <p className="text-sm text-gray-600 mb-2">
                             {tech.specialization}
                           </p>
+
                           <div className="flex items-center gap-4 text-sm">
                             <span className="flex items-center gap-1 text-gray-700">
                               <span className="font-semibold">
@@ -456,6 +465,27 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
                             <span className="text-gray-600">
                               {tech.completedJobs}+ jobs
                             </span>
+                          </div>
+
+                          <div className="flex gap-3 items-center flex-row-reverse justify-between">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation(); // prevent selecting tech on slot button click
+                                setActiveTechnicianForSlot(tech.id);
+                                setShowSlotModal(true);
+                              }}
+                              className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-semibold hover:bg-blue-600"
+                            >
+                              Book Slot
+                            </button>
+
+                            {/* Show selected slot if exists */}
+                            {technicianSlots[tech.id] && (
+                              <div className="text-sm text-green-600 font-semibold">
+                                {technicianSlots[tech.id].date} @{' '}
+                                {technicianSlots[tech.id].time}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -560,6 +590,74 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
           </div>
         </div>
       </div>
+
+      {showSlotModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-96">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">Book Slot</h2>
+
+            {/* Date */}
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Select Date
+            </label>
+            <input
+              type="date"
+              onChange={(e) =>
+                setTechnicianSlots((prev) => ({
+                  ...prev,
+                  [activeTechnicianForSlot]: {
+                    ...prev[activeTechnicianForSlot],
+                    date: e.target.value,
+                  },
+                }))
+              }
+              className="w-full px-3 py-2 border rounded-lg mb-4"
+            />
+
+            {/* Time */}
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Select Time Slot
+            </label>
+            <select
+              onChange={(e) =>
+                setTechnicianSlots((prev) => ({
+                  ...prev,
+                  [activeTechnicianForSlot]: {
+                    ...prev[activeTechnicianForSlot],
+                    time: e.target.value,
+                  },
+                }))
+              }
+              className="w-full px-3 py-2 border rounded-lg mb-6"
+            >
+              <option value="">Choose Slot</option>
+              <option value="10:00 AM – 12:00 PM">10:00 AM – 12:00 PM</option>
+              <option value="12:00 PM – 2:00 PM">12:00 PM – 2:00 PM</option>
+              <option value="2:00 PM – 4:00 PM">2:00 PM – 4:00 PM</option>
+              <option value="4:00 PM – 6:00 PM">4:00 PM – 6:00 PM</option>
+            </select>
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowSlotModal(false)}
+                className="px-4 py-2 bg-gray-200 rounded-lg"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowSlotModal(false);
+                }}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+              >
+                Save Slot
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

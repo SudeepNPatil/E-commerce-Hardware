@@ -20,11 +20,17 @@ import CartPage from './Components/ReadymadeCartPage.jsx';
 import WishlistPage from './Components/ReadymadeWishlistpage.jsx';
 import CheckoutFlow from './Components/CheckoutFlow.jsx';
 import CheckoutPage from './Components/CustomCheoutaddressPage.jsx';
+import Dashboard from './Components/Admin/Dashboard.jsx';
+import Users from './Components/Admin/Users.jsx';
+import Session from './Components/Admin/Session.jsx';
 import {
   CustomOrderContext,
   CustomOrderContextProvider,
 } from './Context/CustomOrderContext.jsx';
 import Orders from './Components/Orders.jsx';
+import Admin from './Components/Admin/Admin.jsx';
+import Readymadeorders from './Components/Admin/Readymadeorders.jsx';
+import Customorders from './Components/Admin/Customorders.jsx';
 
 const myrouter = createBrowserRouter([
   {
@@ -88,6 +94,33 @@ const myrouter = createBrowserRouter([
   {
     path: '/Signup',
     element: <Signup />,
+  },
+  {
+    path: '/admin',
+    element: <Admin />,
+    children: [
+      {
+        index: true,
+        path: '/admin/Dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: '/admin/Users',
+        element: <Users />,
+      },
+      {
+        path: '/admin/Readymadeorders',
+        element: <Readymadeorders />,
+      },
+      {
+        path: '/admin/Customorders',
+        element: <Customorders />,
+      },
+      {
+        path: '/admin/Session',
+        element: <Session />,
+      },
+    ],
   },
 ]);
 

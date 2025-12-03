@@ -3,7 +3,11 @@ import logo from '../assets/logo.png';
 import { useLogincontext } from '../Context/LoginContext';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
-import { MdOutlineAccountBalance } from 'react-icons/md';
+import {
+  MdAdminPanelSettings,
+  MdOutlineAccountBalance,
+  MdOutlineAdminPanelSettings,
+} from 'react-icons/md';
 import { FaRegHeart } from 'react-icons/fa';
 import { IoBagHandleOutline } from 'react-icons/io5';
 import { MdOutlineLogout } from 'react-icons/md';
@@ -18,6 +22,7 @@ export default function () {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
+  console.log(logindata);
   useEffect(() => {
     const handleOutsideClick = () => {
       setOpen(false);
@@ -126,6 +131,18 @@ export default function () {
             <FaRegHeart className="text-3xl" />
             <span className="font-semibold opacity-85">Wishlists</span>
           </Link>
+
+          {logindata?.user?.role === 'admin' ? (
+            <Link
+              to={`/admin`}
+              className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-blue-100 hover:border-l-4 hover:border-l-blue-500"
+            >
+              <MdOutlineAdminPanelSettings className="text-3xl" />
+              <span className="font-semibold opacity-85">Admin</span>
+            </Link>
+          ) : (
+            ''
+          )}
           <Link
             onClick={handleLogout}
             className="flex flex-row gap-5 items-center text-xl  pl-10 p-5 hover:bg-red-100 hover:border-l-4 hover:border-l-red-500"

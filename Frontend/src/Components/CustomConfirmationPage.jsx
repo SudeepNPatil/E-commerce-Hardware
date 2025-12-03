@@ -347,7 +347,7 @@ const CustomConfirmationPage = ({
                   Expected Delivery
                 </span>
               </div>
-              <p className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+              <p className="text-xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
                 {formatDate(estimatedDelivery)}
               </p>
             </div>
@@ -418,8 +418,11 @@ const CustomConfirmationPage = ({
                     Assembly Scheduled
                   </span>
                 </div>
-                <p className="text-2xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                  {assemblyDate ? formatDate(assemblyDate) : 'To be confirmed'}
+                <p className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                  {technician?.slot.date}
+                </p>
+                <p className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                  {technician?.slot.time}
                 </p>
               </div>
 

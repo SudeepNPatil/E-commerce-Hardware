@@ -255,6 +255,12 @@ const CheckoutAddress = ({ onSubmit, initialData }) => {
     landmark: initialData?.landmark || '',
   });
 
+  const [showSlotModal, setShowSlotModal] = useState(false);
+  const [activeTechnicianForSlot, setActiveTechnicianForSlot] = useState(null);
+
+  // Saved slot
+  const [technicianSlots, setTechnicianSlots] = useState({});
+
   const technicians = [
     {
       id: 1,
@@ -318,7 +324,10 @@ const CheckoutAddress = ({ onSubmit, initialData }) => {
     }
     onSubmit({
       ...formData,
-      technician: selectedTechnician,
+      technician: {
+        ...selectedTechnician,
+        slot: technicianSlots[selectedTechnician?.id] || null,
+      },
     });
   };
 
@@ -502,8 +511,8 @@ const CheckoutAddress = ({ onSubmit, initialData }) => {
                     alt={tech.name}
                     className="w-24 h-24 rounded-xl object-cover shadow-md"
                   />
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1 gap-0.5">
+                    <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-lg font-bold text-gray-800">
                           {tech.name}
@@ -519,37 +528,48 @@ const CheckoutAddress = ({ onSubmit, initialData }) => {
                       )}
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3 mb-3">
-                      <div className="bg-white rounded-lg p-2 text-center border border-gray-200">
-                        <div className="flex items-center justify-center gap-1 text-yellow-500 mb-1">
-                          <Star size={14} fill="currentColor" />
-                          <span className="text-sm font-bold text-gray-800">
-                            {tech.rating}
-                          </span>
-                        </div>
-                        <p className="text-xs text-gray-600">Rating</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-2 text-center border border-gray-200">
-                        <p className="text-sm font-bold text-gray-800">
-                          {tech.experience}
+                    <div className="flex flex-col justify-start">
+                      <div className="flex flex-row gap-3">
+                        <p className="text-sm text-gray-800">
+                          {tech.experience} Experience ,
                         </p>
-                        <p className="text-xs text-gray-600">Experience</p>
-                      </div>
-                      <div className="bg-white rounded-lg p-2 text-center border border-gray-200">
-                        <p className="text-sm font-bold text-gray-800">
-                          {tech.completedBuilds}+
-                        </p>
-                        <p className="text-xs text-gray-600">Builds</p>
-                      </div>
-                    </div>
 
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-green-600 font-semibold bg-green-100 px-3 py-1 rounded-full">
-                        {tech.availability}
-                      </span>
-                      <span className="text-lg font-bold bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-transparent">
+                        <p className="text-sm text-gray-800">
+                          {tech.completedBuilds}+ Builds
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-1 text-yellow-500">
+                        <Star size={14} fill="currentColor" />
+                        <span className="text-sm font-bold text-gray-800">
+                          {tech.rating} Rating
+                        </span>
+                      </div>
+
+                      <span className="text-base font-bold bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-transparent">
                         ₹{tech.price.toLocaleString()}
                       </span>
+                    </div>
+
+                    <div className="flex gap-3 items-center flex-row-reverse justify-between">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // prevent selecting tech on slot button click
+                          setActiveTechnicianForSlot(tech.id);
+                          setShowSlotModal(true);
+                        }}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-semibold hover:bg-blue-600"
+                      >
+                        Book Slot
+                      </button>
+
+                      {/* Show selected slot if exists */}
+                      {technicianSlots[tech.id] && (
+                        <div className="text-sm text-green-600 font-semibold">
+                          {technicianSlots[tech.id].date} @{' '}
+                          {technicianSlots[tech.id].time}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -566,6 +586,74 @@ const CheckoutAddress = ({ onSubmit, initialData }) => {
         Proceed to Payment
         <ChevronRight size={24} />
       </button>
+
+      {showSlotModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-96">
+            <h2 className="text-xl font-bold mb-4 text-gray-900">Book Slot</h2>
+
+            {/* Date */}
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Select Date
+            </label>
+            <input
+              type="date"
+              onChange={(e) =>
+                setTechnicianSlots((prev) => ({
+                  ...prev,
+                  [activeTechnicianForSlot]: {
+                    ...prev[activeTechnicianForSlot],
+                    date: e.target.value,
+                  },
+                }))
+              }
+              className="w-full px-3 py-2 border rounded-lg mb-4"
+            />
+
+            {/* Time */}
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Select Time Slot
+            </label>
+            <select
+              onChange={(e) =>
+                setTechnicianSlots((prev) => ({
+                  ...prev,
+                  [activeTechnicianForSlot]: {
+                    ...prev[activeTechnicianForSlot],
+                    time: e.target.value,
+                  },
+                }))
+              }
+              className="w-full px-3 py-2 border rounded-lg mb-6"
+            >
+              <option value="">Choose Slot</option>
+              <option value="10:00 AM – 12:00 PM">10:00 AM – 12:00 PM</option>
+              <option value="12:00 PM – 2:00 PM">12:00 PM – 2:00 PM</option>
+              <option value="2:00 PM – 4:00 PM">2:00 PM – 4:00 PM</option>
+              <option value="4:00 PM – 6:00 PM">4:00 PM – 6:00 PM</option>
+            </select>
+
+            {/* Buttons */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowSlotModal(false)}
+                className="px-4 py-2 bg-gray-200 rounded-lg"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => {
+                  setShowSlotModal(false);
+                }}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+              >
+                Save Slot
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

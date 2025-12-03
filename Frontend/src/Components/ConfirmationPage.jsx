@@ -374,6 +374,10 @@ const ConfirmationPage = ({ orderDetails }) => {
                       <p className="text-sm text-yellow-600">
                         ⭐ {orderDetails.technician.rating} rating
                       </p>
+                      <p className="text-sm text-green-600">
+                        Slot Booked :- {orderDetails.technician.slot.date} @{' '}
+                        {orderDetails.technician.slot.time}
+                      </p>
                     </div>
                   </div>
                 </div>
