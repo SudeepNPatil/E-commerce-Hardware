@@ -4,6 +4,7 @@ import { configDotenv } from 'dotenv';
 import db from './db.js';
 import userRoute from './Routes/User.route.js';
 import contactroute from './Routes/Contact.Route.js';
+import adminroute from './Routes/admin.Routes.js';
 
 const app = express();
 
@@ -16,6 +17,8 @@ db();
 app.use('/User', userRoute);
 
 app.use('/Contactinfo', contactroute);
+
+app.use('/admin', adminroute);
 
 app.listen(process.env.PORT, () => {
   console.log(

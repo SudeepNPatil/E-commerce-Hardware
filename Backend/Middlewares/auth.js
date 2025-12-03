@@ -14,3 +14,14 @@ export default function authMiddleware(req, res, next) {
     res.status(401).send({ message: 'invalid token' });
   }
 }
+
+export const authorizerole = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res
+        .status(403)
+        .json({ message: 'forbidden : not enough permission' });
+    }
+    next();
+  };
+};
