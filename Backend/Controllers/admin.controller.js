@@ -13,3 +13,20 @@ export async function userinfo(req, res) {
     res.status(500).send({ message: 'internal server error' });
   }
 }
+
+export async function deleteuser(req, res) {
+  try {
+    const { id } = req.params;
+
+    const deluser = await User.findByIdAndDelete(id);
+
+    if (!deluser) {
+      res.status(404).send({ message: 'user not found' });
+    }
+
+    res.status(200).send({ message: 'deleted successfully', deluser: deluser });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'internal server error', err });
+  }
+}

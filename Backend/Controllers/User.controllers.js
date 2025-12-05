@@ -1,6 +1,7 @@
 import User from '../Models/User.model.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import newsletter from '../Models/newsletter.model.js';
 
 // login
 
@@ -90,5 +91,60 @@ export async function updateusercontroller(req, res) {
     res
       .status(500)
       .send({ message: 'Error updating item due to iternale server error' });
+  }
+}
+
+export async function setnewsletter(req, res) {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).send({ message: 'email is required' });
+    }
+
+    const newnewsletter = new newsletter({ email: email });
+
+    await newnewsletter.save();
+
+    res
+      .status(200)
+      .send({ message: 'subscribed to newsletter', newsletter: newnewsletter });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'internal server error' });
+  }
+}
+
+export async function getnewsletter(req, res) {
+  try {
+    const newsletters = await newsletter.find();
+
+    if (!newsletters) {
+      return res
+        .status(200)
+        .send({ message: 'no newsleter yet', newsletter: [] });
+    }
+
+    res
+      .status(200)
+      .send({ message: 'subscribed to newsletter', newsletter: newsletters });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'internal server error' });
+  }
+}
+
+export async function deletnewsletter(req, res) {
+  try {
+    const { id } = req.params;
+    const deletenewsletter = await newsletter.findByIdAndDelete(id);
+
+    if (!deletenewsletter)
+      return res.status(404).send({ message: 'newsletter not found' });
+
+    res.status(200).send({ message: 'newsletter deleted successfully' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'Internal server error' });
   }
 }

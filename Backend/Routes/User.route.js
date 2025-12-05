@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { logincontroller } from '../Controllers/User.controllers.js';
+import {
+  deletnewsletter,
+  getnewsletter,
+  logincontroller,
+  setnewsletter,
+} from '../Controllers/User.controllers.js';
 import { signupcontroller } from '../Controllers/User.controllers.js';
 import { updateusercontroller } from '../Controllers/User.controllers.js';
 import { deleteusercontroller } from '../Controllers/User.controllers.js';
@@ -15,6 +20,12 @@ route.post('/signup', signupcontroller);
 route.put('/update/:id', authMiddleware, updateusercontroller);
 
 route.delete('/:id', authMiddleware, deleteusercontroller);
+
+route.post('/newsletter', authMiddleware, setnewsletter);
+
+route.get('/newsletter', getnewsletter);
+
+route.delete('/deletenewsletter/:id', deletnewsletter);
 
 route.get('/verify', authMiddleware, async (req, res) => {
   const id = req.user.id;
