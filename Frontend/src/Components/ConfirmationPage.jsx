@@ -15,10 +15,12 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useLogincontext } from '../Context/LoginContext';
 
 const ConfirmationPage = ({ orderDetails }) => {
   const [showAnimation, setShowAnimation] = useState(true);
   const [showConfetti, setShowConfetti] = useState(true);
+  const { logindata } = useLogincontext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,29 +34,31 @@ const ConfirmationPage = ({ orderDetails }) => {
       setShowConfetti(false);
     }, 4000);
 
+    let fullorderdetails = {
+      ...orderDetails,
+      userId: logindata.user._id,
+      status: 'confirmed',
+    };
+
+    fetch('http://localhost:5000/readymadeOrders/save-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fullorderdetails),
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+      });
+
     return () => {
       clearTimeout(timer);
       clearTimeout(confettiTimer);
     };
   }, []);
 
-  const getEstimatedDelivery = () => {
-    const date = new Date();
-    date.setDate(date.getDate() + 5); // 5 days from now
-    return date.toLocaleDateString('en-IN', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
-
-  const generateOrderId = () => {
-    return `ORD${Date.now().toString().slice(-8)}`;
-  };
-
-  const orderId = generateOrderId();
-  const estimatedDelivery = getEstimatedDelivery();
+  const orderId = orderDetails.orderId;
+  const estimatedDelivery = orderDetails.estimatedDelivery;
+  const orderedOn = orderDetails.orderedOn;
 
   const total = orderDetails?.product
     ? parseInt(orderDetails.product.price.replace(/,/g, '')) *
@@ -206,12 +210,7 @@ const ConfirmationPage = ({ orderDetails }) => {
                         Completed
                       </span>
                     </div>
-                    <p className="text-gray-600 text-sm">
-                      {new Date().toLocaleString('en-IN', {
-                        dateStyle: 'medium',
-                        timeStyle: 'short',
-                      })}
-                    </p>
+                    <p className="text-gray-600 text-sm">{orderedOn}</p>
                   </div>
                 </div>
 

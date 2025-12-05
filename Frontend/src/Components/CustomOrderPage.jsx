@@ -30,16 +30,6 @@ const CustomOrderPage = () => {
   const [cancelReason, setCancelReason] = useState('');
 
   // Get order status based on date
-  const getOrderStatus = (orderDate) => {
-    const daysSinceOrder = Math.floor(
-      (Date.now() - new Date(orderDate).getTime()) / (1000 * 60 * 60 * 24)
-    );
-    if (daysSinceOrder < 1) return 'placed';
-    if (daysSinceOrder < 2) return 'confirmed';
-    if (daysSinceOrder < 4) return 'shipped';
-    if (daysSinceOrder < 6) return 'outfordelivery';
-    return 'delivered';
-  };
 
   const orderStatuses = {
     placed: {
@@ -90,16 +80,22 @@ const CustomOrderPage = () => {
       alert('Please provide a cancellation reason');
       return;
     }
-    alert('Order cancelled successfully!');
-    console.log(selectedOrder?.orderId);
+
+    fetch(`http://localhost:5000/CustomOrders/orders/${selectedOrder._id}`, {
+      method: 'DELETE',
+    })
+      .then((data) => data.json())
+      .then((data) => console.log(data));
+
     RemoveFromCustomOrder(selectedOrder?.orderId);
+    alert('Order cancelled successfully!');
     setShowCancelModal(false);
     setCancelReason('');
     setSelectedOrder(null);
   };
 
   const TrackingModal = ({ order, onClose }) => {
-    const currentStatus = getOrderStatus(order.orderDate);
+    const currentStatus = order.status;
 
     const trackingSteps = [
       {
@@ -112,7 +108,7 @@ const CustomOrderPage = () => {
           'outfordelivery',
           'delivered',
         ].includes(currentStatus),
-        date: order.orderDate,
+        date: order.orderedOn,
         icon: <Package className="w-6 h-6" />,
       },
       {
@@ -124,9 +120,7 @@ const CustomOrderPage = () => {
           'outfordelivery',
           'delivered',
         ].includes(currentStatus),
-        date: new Date(
-          new Date(order.orderDate).getTime() + 1 * 24 * 60 * 60 * 1000
-        ).toISOString(),
+        date: order.orderedOn,
         icon: <CheckCircle className="w-6 h-6" />,
       },
       {
@@ -135,27 +129,21 @@ const CustomOrderPage = () => {
         completed: ['shipped', 'outfordelivery', 'delivered'].includes(
           currentStatus
         ),
-        date: new Date(
-          new Date(order.orderDate).getTime() + 3 * 24 * 60 * 60 * 1000
-        ).toISOString(),
+        date: order.orderedOn,
         icon: <Truck className="w-6 h-6" />,
       },
       {
         status: 'outfordelivery',
         label: 'Out for Delivery',
         completed: ['outfordelivery', 'delivered'].includes(currentStatus),
-        date: new Date(
-          new Date(order.orderDate).getTime() + 4 * 24 * 60 * 60 * 1000
-        ).toISOString(),
+        date: order.orderedOn,
         icon: <Truck className="w-6 h-6" />,
       },
       {
         status: 'delivered',
         label: 'Delivered',
         completed: currentStatus === 'delivered',
-        date: new Date(
-          new Date(order.orderDate).getTime() + 5 * 24 * 60 * 60 * 1000
-        ).toISOString(),
+        date: order.orderedOn,
         icon: <Home className="w-6 h-6" />,
       },
     ];
@@ -165,9 +153,7 @@ const CustomOrderPage = () => {
         status: 'assembly',
         label: 'Assembly Completed',
         completed: currentStatus === 'delivered',
-        date: new Date(
-          new Date(order.orderDate).getTime() + 6 * 24 * 60 * 60 * 1000
-        ).toISOString(),
+        date: order.orderedOn,
         icon: <Wrench className="w-6 h-6" />,
       });
     }
@@ -425,6 +411,8 @@ const CustomOrderPage = () => {
     );
   }
 
+  console.log(CustomOrder);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-blue-50 to-green-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -443,9 +431,8 @@ const CustomOrderPage = () => {
         {/* Orders List */}
         <div className="space-y-4">
           {CustomOrder.map((order) => {
-            const status = getOrderStatus(order.orderDate);
+            const status = order.status;
             const statusInfo = orderStatuses[status];
-            const estimatedDelivery = getEstimatedDelivery(order.orderDate);
 
             return (
               <div
@@ -457,9 +444,9 @@ const CustomOrderPage = () => {
                   <div className="flex items-start justify-between mb-4 pb-4 border-b border-gray-200">
                     <div className="flex items-start gap-4">
                       <div
-                        className={`bg-${statusInfo.color}-100 text-${statusInfo.color}-600 p-3 rounded-full`}
+                        className={`bg-${statusInfo?.color}-100 text-${statusInfo?.color}-600 p-3 rounded-full`}
                       >
-                        {statusInfo.icon}
+                        {statusInfo?.icon}
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -467,30 +454,22 @@ const CustomOrderPage = () => {
                             Order #{order.orderId}
                           </h3>
                           <span
-                            className={`bg-${statusInfo.color}-100 text-${statusInfo.color}-700 px-3 py-1 rounded-full text-xs font-bold`}
+                            className={`bg-${statusInfo?.color}-100 text-${statusInfo?.color}-700 px-3 py-1 rounded-full text-xs font-bold`}
                           >
-                            {statusInfo.label}
+                            {statusInfo?.label}
                           </span>
                         </div>
                         <div className="space-y-1">
                           <div className="flex items-center gap-2 text-sm text-gray-600">
                             <Calendar className="w-4 h-4" />
-                            <span>
-                              Ordered:{' '}
-                              {new Date(order.orderDate).toLocaleDateString(
-                                'en-IN',
-                                {
-                                  year: 'numeric',
-                                  month: 'short',
-                                  day: 'numeric',
-                                }
-                              )}
-                            </span>
+                            <span>Ordered : {order.orderedOn}</span>
                           </div>
                           {status !== 'delivered' && (
                             <div className="flex items-center gap-2 text-sm text-green-600 font-semibold">
                               <Truck className="w-4 h-4" />
-                              <span>Arrives by: {estimatedDelivery}</span>
+                              <span>
+                                Arrives by : {order.estimatedDelivery}
+                              </span>
                             </div>
                           )}
                         </div>

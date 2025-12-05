@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useCustomOrderContext } from '../Context/CustomOrderContext.jsx';
 import { Link } from 'react-router-dom';
+import { useLogincontext } from '../Context/LoginContext.jsx';
 
 const CustomConfirmationPage = ({
   orderId,
@@ -30,6 +31,26 @@ const CustomConfirmationPage = ({
   const [animationStep, setAnimationStep] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const { CustomaddToOrder } = useCustomOrderContext();
+  const { logindata } = useLogincontext();
+
+  // Generate order ID and dates
+  // const orderId = orderId?.orderId || `0`;
+  const getEstimatedDelivery = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 5);
+    return date.toLocaleDateString('en-IN', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  const estimatedDelivery = getEstimatedDelivery();
+  let orderedOn = new Date().toLocaleString('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
 
   useEffect(() => {
     // Create the order object
@@ -40,22 +61,33 @@ const CustomConfirmationPage = ({
       payment: paymentMethod,
       cartItems,
       totalAmount,
-      orderDate: new Date().toISOString(),
+      orderedOn: orderedOn,
+      estimatedDelivery: estimatedDelivery,
     };
 
     // Add it to context
     CustomaddToOrder(newOrder);
+
+    let fullorderdetails = {
+      ...newOrder,
+      userId: logindata.user._id,
+      status: 'confirmed',
+    };
+
+    fetch('http://localhost:5000/CustomOrders/save-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fullorderdetails),
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+      });
   }, []);
 
-  // Generate order ID and dates
-  // const orderId = orderId?.orderId || `0`;
-  const orderDate = new Date();
-  const estimatedDelivery = new Date(
-    orderDate.getTime() + 5 * 24 * 60 * 60 * 1000
-  ); // 5 days
   const assemblyDate =
     technician !== 'skip'
-      ? new Date(estimatedDelivery.getTime() + 1 * 24 * 60 * 60 * 1000) // 1 day after delivery
+      ? technician.slot.date + technician.slot.time // 1 day after delivery
       : null;
 
   // Animation sequence
@@ -82,11 +114,6 @@ const CustomConfirmationPage = ({
       description: 'Your order has been placed successfully',
       icon: CheckCircle,
       status: 'completed',
-      date: orderDate.toLocaleDateString(),
-      time: orderDate.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
     },
     {
       id: 2,
@@ -94,9 +121,6 @@ const CustomConfirmationPage = ({
       description: 'Components are being prepared for shipment',
       icon: Package,
       status: 'active',
-      estimatedDate: new Date(
-        orderDate.getTime() + 1 * 24 * 60 * 60 * 1000
-      ).toLocaleDateString(),
     },
     {
       id: 3,
@@ -104,9 +128,6 @@ const CustomConfirmationPage = ({
       description: 'Your order is on the way',
       icon: Truck,
       status: 'pending',
-      estimatedDate: new Date(
-        orderDate.getTime() + 3 * 24 * 60 * 60 * 1000
-      ).toLocaleDateString(),
     },
     {
       id: 4,
@@ -114,7 +135,6 @@ const CustomConfirmationPage = ({
       description: 'Components delivered to your address',
       icon: Home,
       status: 'pending',
-      estimatedDate: estimatedDelivery.toLocaleDateString(),
     },
   ];
 
@@ -125,18 +145,9 @@ const CustomConfirmationPage = ({
       description: `${technician?.name || 'Technician'} will assemble your PC`,
       icon: Wrench,
       status: 'pending',
-      estimatedDate: assemblyDate?.toLocaleDateString(),
+      /* estimatedDate: assemblyDate?.toLocaleDateString(), */
     });
   }
-
-  const formatDate = (date) => {
-    return date.toLocaleDateString('en-IN', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
 
   return (
     <div className="space-y-6 relative">
@@ -205,7 +216,7 @@ const CustomConfirmationPage = ({
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Order Date</span>
             <span className="text-sm font-semibold text-gray-800">
-              {formatDate(orderDate)}
+              {orderedOn}
             </span>
           </div>
         </div>
@@ -247,7 +258,7 @@ const CustomConfirmationPage = ({
         </div>
 
         <div className="relative">
-          {trackingSteps.map((step, index) => {
+          {trackingSteps?.map((step, index) => {
             const Icon = step.icon;
             const isCompleted = step.status === 'completed';
             const isActive = step.status === 'active';
@@ -295,22 +306,22 @@ const CustomConfirmationPage = ({
                       {step.description}
                     </p>
                     <div className="flex items-center gap-4 text-xs">
-                      {step.date && (
+                      {step?.date && (
                         <span className="flex items-center gap-1 text-green-600 font-semibold">
                           <Calendar size={14} />
-                          {step.date}
+                          {step?.date}
                         </span>
                       )}
-                      {step.time && (
+                      {step?.time && (
                         <span className="flex items-center gap-1 text-green-600 font-semibold">
                           <Clock size={14} />
-                          {step.time}
+                          {step?.time}
                         </span>
                       )}
-                      {step.estimatedDate && !step.date && (
+                      {step?.estimatedDate && !step.date && (
                         <span className="flex items-center gap-1 text-gray-500">
                           <Calendar size={14} />
-                          Est. {step.estimatedDate}
+                          Est. {step?.estimatedDate}
                         </span>
                       )}
                     </div>
@@ -347,8 +358,8 @@ const CustomConfirmationPage = ({
                   Expected Delivery
                 </span>
               </div>
-              <p className="text-xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                {formatDate(estimatedDelivery)}
+              <p className="text-lg font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+                {estimatedDelivery}
               </p>
             </div>
 
@@ -358,7 +369,7 @@ const CustomConfirmationPage = ({
                   className="text-gray-400 mt-1 flex-shrink-0"
                   size={16}
                 />
-                <div>
+                <div className="text-left">
                   <p className="font-semibold text-gray-800">
                     Delivery Address
                   </p>
@@ -418,10 +429,10 @@ const CustomConfirmationPage = ({
                     Assembly Scheduled
                   </span>
                 </div>
-                <p className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                <p className="text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
                   {technician?.slot.date}
                 </p>
-                <p className="text-xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                <p className="text-lg font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
                   {technician?.slot.time}
                 </p>
               </div>

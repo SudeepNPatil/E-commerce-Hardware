@@ -12,9 +12,9 @@ export default function Readymadeorders() {
   const [orderlists, setorderlists] = useState([]);
 
   useEffect(() => {
-    fetch('https://student-support-s0xt.onrender.com/orders/allordersinfo')
+    fetch('http://localhost:5000/readymadeOrders/allorders')
       .then((data) => data.json())
-      .then((data) => setorderlists(data));
+      .then((data) => setorderlists(data.orders));
   }, []);
 
   return (
@@ -49,18 +49,19 @@ export default function Readymadeorders() {
                 <tr key={index} className="border h-20">
                   <td className="border">{count}</td>
                   <td className="flex flex-col items-start justify-center px-10 gap-1 py-4">
-                    <p className="text-[18px]">{orders.userInfo.name}</p>
-                    <p className="text-sm">{orders.userInfo.email}</p>
+                    <p className="text-[18px]">{orders?.address?.fullName}</p>
+                    <p className="text-sm">{orders?.address?.phoneNumber}</p>
+                    <p className="text-sm">{orders?.address?.addressLine1}</p>
                   </td>
                   <td className="border">
-                    {orders.orders.map((item) => (
-                      <>
-                        <span className="block text-center">{item.title}</span>
-                        <span className="block text-center mb-4">
-                          category : {item.category}
-                        </span>
-                      </>
-                    ))}
+                    <>
+                      <span className="block text-center">
+                        {orders?.product?.name}
+                      </span>
+                      <span className="block text-center mb-4">
+                        category : {orders?.product?.category}
+                      </span>
+                    </>
                   </td>
                   <td className="border ">
                     <span className="px-4 py-1 rounded-lg bg-green-100">

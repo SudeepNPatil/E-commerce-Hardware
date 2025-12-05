@@ -16,7 +16,6 @@ import RajeshKumar from '../assets/RajeshKumar.png';
 import PriyaPatel from '../assets/PriyaPatel.png';
 
 const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
-  // Address State
   const [address, setAddress] = useState({
     fullName: '',
     phoneNumber: '',
@@ -26,23 +25,19 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
     landmark: '',
     city: '',
     state: '',
-    addressType: 'home', // home, work, other
+    addressType: 'home',
   });
 
-  // Technician State
   const [selectedTechnician, setSelectedTechnician] = useState(null);
   const [skipTechnician, setSkipTechnician] = useState(false);
 
   const [showSlotModal, setShowSlotModal] = useState(false);
   const [activeTechnicianForSlot, setActiveTechnicianForSlot] = useState(null);
 
-  // Saved slot
   const [technicianSlots, setTechnicianSlots] = useState({});
 
-  // Validation State
   const [errors, setErrors] = useState({});
 
-  // Technician Data
   const technicians = [
     {
       id: 1,
@@ -51,7 +46,7 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
       specialization: 'Desktop & Laptop Setup',
       rating: 4.8,
       completedJobs: 1250,
-      image: RajeshKumar, // You'll add actual image later
+      image: RajeshKumar,
     },
     {
       id: 2,
@@ -60,7 +55,7 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
       specialization: 'Hardware Installation',
       rating: 4.6,
       completedJobs: 890,
-      image: AmitSharma, // You'll add actual image later
+      image: AmitSharma,
     },
     {
       id: 3,
@@ -69,7 +64,7 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
       specialization: 'Software & OS Setup',
       rating: 4.9,
       completedJobs: 1100,
-      image: PriyaPatel, // You'll add actual image later
+      image: PriyaPatel,
     },
   ];
 

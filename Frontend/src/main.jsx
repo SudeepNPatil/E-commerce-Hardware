@@ -125,17 +125,17 @@ const myrouter = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <CustomOrderContextProvider>
-    <OrderContextProvider>
-      <WishlistContextProvider>
-        <CartContextProvider>
-          <ProductTypeContextProvider>
-            <LoginContextProvider>
+  <LoginContextProvider>
+    <CustomOrderContextProvider>
+      <OrderContextProvider>
+        <WishlistContextProvider>
+          <CartContextProvider>
+            <ProductTypeContextProvider>
               <RouterProvider router={myrouter} />
-            </LoginContextProvider>
-          </ProductTypeContextProvider>
-        </CartContextProvider>
-      </WishlistContextProvider>
-    </OrderContextProvider>
-  </CustomOrderContextProvider>
+            </ProductTypeContextProvider>
+          </CartContextProvider>
+        </WishlistContextProvider>
+      </OrderContextProvider>
+    </CustomOrderContextProvider>
+  </LoginContextProvider>
 );

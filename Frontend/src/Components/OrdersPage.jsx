@@ -73,8 +73,12 @@ const OrdersPage = () => {
       return;
     }
 
-    RemoveFromOrder(selectedOrder?.product?.id || 'ORD12345678');
-    console.log(selectedOrder);
+    fetch(`http://localhost:5000/readymadeOrders/orders/${selectedOrder._id}`, {
+      method: 'DELETE',
+    })
+      .then((data) => data.json())
+      .then((data) => console.log(data));
+    RemoveFromOrder(selectedOrder?.product?.id);
     alert('Order cancelled successfully!');
     setShowCancelModal(false);
     setCancelReason('');
@@ -331,7 +335,7 @@ const OrdersPage = () => {
           {Order.map((order) => {
             const status = getOrderStatus(order);
             const statusInfo = orderStatuses[status];
-            const estimatedDelivery = getEstimatedDelivery(order.timestamp);
+            const estimatedDelivery = order.estimatedDelivery;
             const totalAmount =
               parseInt(order.product.price.replace(/,/g, '')) * order.quantity +
               (order.technician ? 999 : 0) +
@@ -361,15 +365,7 @@ const OrdersPage = () => {
                           <div className="flex items-center gap-2 text-sm text-gray-600">
                             <Calendar className="w-4 h-4" />
                             <span>
-                              Ordered:{' '}
-                              {new Date(order.timestamp).toLocaleDateString(
-                                'en-IN',
-                                {
-                                  year: 'numeric',
-                                  month: 'short',
-                                  day: 'numeric',
-                                }
-                              )}
+                              Ordered: {order?.orderedOn || 'not provided'}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-sm text-green-600 font-semibold">

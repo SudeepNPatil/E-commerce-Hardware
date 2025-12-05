@@ -1,7 +1,41 @@
 import { BsArrowRightCircleFill } from 'react-icons/bs';
 import Headphone from '../assets/Headphone.png';
+import { useState } from 'react';
+import { RxCross2 } from 'react-icons/rx';
 
-export default function () {
+export default function Subscribe() {
+  const [email, setemail] = useState('');
+  const [modal, setmodal] = useState(false);
+
+  const handlechange = (e) => setemail(e.target.value);
+  let token = localStorage.getItem('token');
+
+  const submit = () => {
+    if (email === '') {
+      return;
+    }
+
+    fetch('http://localhost:5000/User/newsletter', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+      body: JSON.stringify({ email: email }),
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+        setemail('');
+        setmodal(true);
+
+        setTimeout(() => {
+          setmodal(false);
+        }, 3000);
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="flex flex-col w-full px-10 mt-40">
       <div className="flex flex-row justify-between   px-10 bg-red-500 bg-opacity-75 w-full h-[450px] rounded-[80px] rounded-tr-[800px]">
@@ -15,10 +49,16 @@ export default function () {
           <div className="rounded-full w-[480px] h-20 border flex flex-col justify-center items-center mt-2 relative">
             <input
               type="text"
+              name="email"
+              value={email}
+              onChange={handlechange}
               className="outline-none pl-6 pr-10 rounded-full self-center w-full h-full"
               placeholder="Enter your email address "
             />
-            <BsArrowRightCircleFill className="text-5xl absolute right-4 cursor-pointer" />
+            <BsArrowRightCircleFill
+              onClick={submit}
+              className="text-5xl absolute right-4 cursor-pointer"
+            />
           </div>
         </div>
 
@@ -32,6 +72,14 @@ export default function () {
           <div className="bg-blue-300 rounded-full w-10 h-10 absolute bottom-20 right-0"></div>
         </div>
       </div>
+
+      {modal && (
+        <div className="fixed bg-white w-80 h-20 border rounded-md shadow-lg bottom-5 right-5">
+          <p className="text-center flex w-full h-full justify-center items-center text-green-700 text-xl">
+            Subscribed to Newsletter 🎉
+          </p>
+        </div>
+      )}
     </div>
   );
 }

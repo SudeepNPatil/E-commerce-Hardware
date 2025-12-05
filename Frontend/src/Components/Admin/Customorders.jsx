@@ -12,9 +12,9 @@ export default function Customorders() {
   const [orderlists, setorderlists] = useState([]);
 
   useEffect(() => {
-    fetch('https://student-support-s0xt.onrender.com/orders/allordersinfo')
+    fetch('http://localhost:5000/CustomOrders/allorders')
       .then((data) => data.json())
-      .then((data) => setorderlists(data));
+      .then((data) => console.log(data));
   }, []);
 
   return (

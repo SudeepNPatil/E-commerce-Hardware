@@ -54,6 +54,30 @@ const PaymentPage = ({ orderDetails, onBack, onConfirm }) => {
     },
   ];
 
+  // Generate Order ID
+  const generateOrderId = () => {
+    return `ORD${Date.now().toString().slice(-8)}`;
+  };
+
+  // Estimated Delivery: 5 days from today
+  const getEstimatedDelivery = () => {
+    const date = new Date();
+    date.setDate(date.getDate() + 5);
+    return date.toLocaleDateString('en-IN', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  const orderId = generateOrderId();
+  const estimatedDelivery = getEstimatedDelivery();
+  let orderedOn = new Date().toLocaleString('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+
   const validateCardDetails = () => {
     const newErrors = {};
     if (
@@ -110,12 +134,24 @@ const PaymentPage = ({ orderDetails, onBack, onConfirm }) => {
     };
 
     console.log('Payment Info:', paymentInfo);
-    console.log('Complete Order:', { ...orderDetails, payment: paymentInfo });
+    console.log('Complete Order:', {
+      ...orderDetails,
+      payment: paymentInfo,
+      orderId: orderId,
+      estimatedDelivery: estimatedDelivery,
+      orderedOn: orderedOn,
+    });
 
     // Simulate payment processing
     if (selectedPaymentMethod === 'cod') {
       if (onConfirm) {
-        onConfirm({ ...orderDetails, payment: paymentInfo });
+        onConfirm({
+          ...orderDetails,
+          payment: paymentInfo,
+          orderId: orderId,
+          estimatedDelivery: estimatedDelivery,
+          orderedOn: orderedOn,
+        });
       }
     } else {
       // Simulate payment gateway
@@ -123,7 +159,13 @@ const PaymentPage = ({ orderDetails, onBack, onConfirm }) => {
       setTimeout(() => {
         alert('Payment Successful!');
         if (onConfirm) {
-          onConfirm({ ...orderDetails, payment: paymentInfo });
+          onConfirm({
+            ...orderDetails,
+            payment: paymentInfo,
+            orderId: orderId,
+            estimatedDelivery: estimatedDelivery,
+            orderedOn: orderedOn,
+          });
         }
       }, 1500);
     }

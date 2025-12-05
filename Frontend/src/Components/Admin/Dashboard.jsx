@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { IoPersonOutline } from 'react-icons/io5';
-import { IoNotifications } from 'react-icons/io5';
 import { FaBox } from 'react-icons/fa';
 import { FaUsers } from 'react-icons/fa6';
 import { FaBagShopping } from 'react-icons/fa6';
-import { FaRupeeSign } from 'react-icons/fa6';
-import { FaIndianRupeeSign } from 'react-icons/fa6';
-import { FaClock } from 'react-icons/fa6';
 import { BiCustomize } from 'react-icons/bi';
 import { Contact } from 'lucide-react';
 import { RiNewsLine } from 'react-icons/ri';

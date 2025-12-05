@@ -29,6 +29,8 @@ const CheckoutPage = () => {
     payment: null,
   });
 
+  console.log(checkoutData);
+
   // ✅ Convert selectedParts object → array of items (filtering nulls)
   const cartItems = useMemo(() => {
     return Object.entries(selectedParts)
