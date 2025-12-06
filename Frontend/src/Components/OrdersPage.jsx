@@ -40,6 +40,11 @@ const OrdersPage = () => {
       color: 'purple',
       label: 'Shipped',
     },
+    outfordelivery: {
+      icon: <Truck className="w-5 h-5" />,
+      color: 'purple',
+      label: 'outfordelivery',
+    },
     delivered: {
       icon: <CheckCircle className="w-5 h-5" />,
       color: 'green',
@@ -108,6 +113,22 @@ const OrdersPage = () => {
       },
       { status: 'delivered', label: 'Delivered', completed: false, date: null },
     ];
+    const currentStatus = order.status;
+    let stop = false;
+
+    for (let i = 0; i < trackingSteps.length; i++) {
+      if (stop) {
+        trackingSteps[i].completed = false;
+        continue;
+      }
+
+      if (trackingSteps[i].status === currentStatus) {
+        trackingSteps[i].completed = true;
+        stop = true;
+      } else {
+        trackingSteps[i].completed = true;
+      }
+    }
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -116,7 +137,7 @@ const OrdersPage = () => {
             <div>
               <h2 className="text-2xl font-bold text-gray-900">Track Order</h2>
               <p className="text-gray-600 text-sm">
-                Order ID: {order?.orderId || 'ORD12345678'}
+                Order ID: {order?.orderId}
               </p>
             </div>
             <button
@@ -332,7 +353,7 @@ const OrdersPage = () => {
         </div>
 
         <div className="space-y-4">
-          {Order.map((order) => {
+          {Order?.map((order) => {
             const status = getOrderStatus(order);
             const statusInfo = orderStatuses[status];
             const estimatedDelivery = order.estimatedDelivery;
@@ -350,7 +371,7 @@ const OrdersPage = () => {
                   <div className="flex items-start justify-between mb-4 pb-4 border-b border-gray-200">
                     <div className="flex items-start gap-4">
                       <div className="bg-blue-100 text-blue-600 p-3 rounded-full">
-                        {statusInfo.icon}
+                        {statusInfo?.icon}
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-2">
@@ -358,7 +379,7 @@ const OrdersPage = () => {
                             Order #{order?.orderId || 'ORD12345678'}
                           </h3>
                           <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">
-                            {statusInfo.label}
+                            {statusInfo?.label}
                           </span>
                         </div>
                         <div className="space-y-1">
@@ -377,7 +398,7 @@ const OrdersPage = () => {
                     </div>
                     <div className="text-right">
                       <p className="text-2xl font-bold text-red-500">
-                        ₹{totalAmount.toLocaleString('en-IN')}
+                        ₹{totalAmount?.toLocaleString('en-IN')}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
                         {order.payment?.method === 'cod'
@@ -399,7 +420,7 @@ const OrdersPage = () => {
                     />
                     <div className="flex-grow">
                       <h4 className="text-lg font-bold text-gray-900 mb-2">
-                        {order.product.name}
+                        {order?.product?.name}
                       </h4>
                       <div className="space-y-1 text-sm text-gray-600 mb-3">
                         <p>

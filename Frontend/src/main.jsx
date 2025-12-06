@@ -31,6 +31,7 @@ import Orders from './Components/Orders.jsx';
 import Admin from './Components/Admin/Admin.jsx';
 import Readymadeorders from './Components/Admin/Readymadeorders.jsx';
 import Customorders from './Components/Admin/Customorders.jsx';
+import AddProductPage from './Components/Admin/AddProductPage.jsx';
 
 const myrouter = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ const myrouter = createBrowserRouter([
       {
         path: '/admin/Users',
         element: <Users />,
+      },
+      {
+        path: '/admin/addProducts',
+        element: <AddProductPage />,
       },
       {
         path: '/admin/Readymadeorders',

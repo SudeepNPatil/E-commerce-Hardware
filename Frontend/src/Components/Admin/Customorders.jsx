@@ -14,13 +14,34 @@ export default function Customorders() {
   useEffect(() => {
     fetch('http://localhost:5000/CustomOrders/allorders')
       .then((data) => data.json())
-      .then((data) => console.log(data));
+      .then((data) => setorderlists(data.orders));
   }, []);
+
+  const handledelete = (id) => {
+    fetch(`http://localhost:5000/CustomOrders/orders/${id}`, {
+      method: 'DELETE',
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+
+        let updatedorderlist = orderlists.filter((item) => item._id != id);
+        setorderlists(updatedorderlist);
+      });
+  };
+
+  const handlechnage = (id, status) => {
+    fetch(`http://localhost:5000/CustomOrders/trackorder/${id}/${status}`, {
+      method: 'PUT',
+    })
+      .then((data) => data.json())
+      .then((data) => console.log(data));
+  };
 
   return (
     <div className="flex flex-col flex-1 h-screen overflow-auto">
       <div className="flex felx-row justify-between px-14 border-b py-8">
-        <h1 className="text-3xl font-bold ">Orders</h1>
+        <h1 className="text-3xl font-bold ">Custom Orders</h1>
       </div>
 
       <div className="flex flex-col flex-grow mx-14 my-14 rounded-t-2xl border h-auto ">
@@ -40,8 +61,8 @@ export default function Customorders() {
               <th className="border w-20">Sl.No</th>
               <th className="border w-50">User info</th>
               <th className="border w-80">items</th>
-              <th className="border w-40">status</th>
-              <th className="border w-60">Actions</th>
+              <th className="border w-36">status</th>
+              <th className="border w-20">Actions</th>
             </tr>
             {orderlists.map((orders, index) => {
               count++;
@@ -49,28 +70,79 @@ export default function Customorders() {
                 <tr key={index} className="border h-20">
                   <td className="border">{count}</td>
                   <td className="flex flex-col items-start justify-center px-10 gap-1 py-4">
-                    <p className="text-[18px]">{orders.userInfo.name}</p>
-                    <p className="text-sm">{orders.userInfo.email}</p>
+                    <p className="text-[18px]">{orders?.address?.fullName}</p>
+                    <p className="text-sm">{orders?.address?.email}</p>
+                    <p className="text-sm">{orders?.address?.phoneNumber}</p>
+                    <p className="text-sm text-left">
+                      {orders?.address?.address}
+                    </p>
+                    <p className="text-sm text-left">{orders?.address?.city}</p>
+                    <p className="text-sm text-left">
+                      {orders?.address?.state}
+                    </p>
+                    <p className="text-sm text-left">
+                      {orders?.address?.pincode}
+                    </p>
+                    <p className="text-sm text-left">
+                      {orders?.address?.landmark}
+                    </p>
                   </td>
-                  <td className="border">
-                    {orders.orders.map((item) => (
-                      <>
-                        <span className="block text-center">{item.title}</span>
-                        <span className="block text-center mb-4">
-                          category : {item.category}
-                        </span>
-                      </>
-                    ))}
+                  <td className="border py-4 px-5">
+                    <ol>
+                      {orders.cartItems.map((item, count) => {
+                        count++;
+                        return (
+                          <li className="block text-left mb-2">
+                            {count}
+                            {'] '}
+                            {item.name}
+                          </li>
+                        );
+                      })}
+                    </ol>
+                    <span className="block text-left ">
+                      Payment method : {orders?.payment.method}
+                    </span>
+                    <span className="block text-left ">
+                      orderedOn : {orders?.orderedOn}
+                    </span>
+                    <span className="block text-left text-green-500 bg-green-100 rounded-md px-8 py-2 my-3">
+                      Total Prise : ₹ {orders?.totalAmount}{' '}
+                    </span>
+                    {orders?.technician?.name ? (
+                      <span className="block text-left text-blue-500 bg-blue-100 rounded-md px-8 py-2">
+                        technicion included
+                      </span>
+                    ) : (
+                      <span className="block text-left text-red-500 bg-red-100 rounded-md px-8 py-2">
+                        Technicion not included
+                      </span>
+                    )}
                   </td>
                   <td className="border ">
-                    <span className="px-4 py-1 rounded-lg bg-green-100">
-                      pending
-                    </span>
+                    <select
+                      onChange={(e) => {
+                        let status = e.target.value;
+                        handlechnage(orders._id, status);
+                      }}
+                      className="rounded-lg bg-green-100 w-fit py-2 mx-2 px-2"
+                    >
+                      <option value={`${orders.status}`}>
+                        {orders.status}
+                      </option>
+                      <option value="shipped">shipped</option>
+                      <option value="confirmed">confirmed</option>
+                      <option value="outfordelivery">outfordelivery</option>
+                      <option value="delivered">delivered</option>
+                      <option value="cancle">cancle</option>
+                      <option value="assamblycompleted">assambled</option>
+                    </select>
                   </td>
                   <td className="border">
-                    <FaRegEye className="text-4xl p-2 rounded-lg bg-green-50 text-green-500 text-opacity-70 inline-block mx-1" />
-                    <RiEditBoxFill className="text-4xl p-2 rounded-lg bg-blue-50 text-blue-500 text-opacity-70 inline-block mx-1" />
-                    <AiFillDelete className="text-4xl p-2 rounded-lg bg-red-50 text-red-500 bg-opacity-90 inline-block mx-1" />
+                    <AiFillDelete
+                      onClick={() => handledelete(orders._id)}
+                      className="text-4xl p-2 cursor-pointer rounded-lg bg-red-50 text-red-500 bg-opacity-90 inline-block mx-1"
+                    />
                   </td>
                 </tr>
               );

@@ -38,6 +38,7 @@ const ConfirmationPage = ({ orderDetails }) => {
       ...orderDetails,
       userId: logindata.user._id,
       status: 'confirmed',
+      totalAmount: total,
     };
 
     fetch('http://localhost:5000/readymadeOrders/save-order', {

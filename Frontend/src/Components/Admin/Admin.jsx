@@ -6,6 +6,7 @@ import { MdAdminPanelSettings } from 'react-icons/md';
 import { SiSession } from 'react-icons/si';
 import { RiDashboard3Fill } from 'react-icons/ri';
 import { useState } from 'react';
+import { AiOutlineProduct } from 'react-icons/ai';
 
 export default function Admin() {
   const [bg, setbg] = useState(0);
@@ -43,10 +44,21 @@ export default function Admin() {
           </Link>
 
           <Link
-            to="/admin/Customorders"
+            to="/admin/addProducts"
             onClick={() => setbg(3)}
             className={`text-center ${
               bg == 3 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+            } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
+          >
+            <AiOutlineProduct className="text-2xl " />
+            <h1 className="text-lg">Add Products</h1>
+          </Link>
+
+          <Link
+            to="/admin/Customorders"
+            onClick={() => setbg(4)}
+            className={`text-center ${
+              bg == 4 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <FaCartArrowDown className="text-2xl " />
@@ -55,9 +67,9 @@ export default function Admin() {
 
           <Link
             to="/admin/Readymadeorders"
-            onClick={() => setbg(4)}
+            onClick={() => setbg(5)}
             className={`text-center ${
-              bg == 4 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              bg == 5 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <FaCartArrowDown className="text-2xl " />
@@ -66,9 +78,9 @@ export default function Admin() {
 
           <Link
             to="/admin/Session"
-            onClick={() => setbg(5)}
+            onClick={() => setbg(6)}
             className={`text-center ${
-              bg == 5 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              bg == 6 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <SiSession className="text-2xl " />
