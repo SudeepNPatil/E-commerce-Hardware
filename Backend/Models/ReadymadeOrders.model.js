@@ -8,6 +8,7 @@ const readymadeorders = mongoose.Schema(
     estimatedDelivary: String,
     OrderId: String,
     quantity: mongoose.Schema.Types.Mixed,
+    totalAmount: mongoose.Schema.Types.Mixed,
     technician: mongoose.Schema.Types.Mixed,
     product: mongoose.Schema.Types.Mixed,
     payment: mongoose.Schema.Types.Mixed,

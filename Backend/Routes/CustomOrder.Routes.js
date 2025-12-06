@@ -46,9 +46,13 @@ router.get('/orders/:id', async (req, res) => {
 router.put('/trackorder/:id/:status', async (req, res) => {
   try {
     const { id, status } = req.params;
-    const updatedstatus = await CustomOrder.findByIdAndUpdate(id, status, {
-      new: true,
-    });
+    const updatedstatus = await CustomOrder.findByIdAndUpdate(
+      id,
+      { status: status },
+      {
+        new: true,
+      }
+    );
 
     if (!updatedstatus) {
       return res.status(200).send({ message: 'no orders found' });
