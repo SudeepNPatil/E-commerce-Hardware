@@ -7,6 +7,7 @@ import contactroute from './Routes/Contact.Route.js';
 import adminroute from './Routes/admin.Routes.js';
 import OrderRouter from './Routes/Orders.Routes.js';
 import CustomOrdersRoute from './Routes/CustomOrder.Routes.js';
+import productroute from './Routes/Product.routes.js';
 
 const app = express();
 
@@ -25,6 +26,8 @@ app.use('/readymadeOrders', OrderRouter);
 app.use('/CustomOrders', CustomOrdersRoute);
 
 app.use('/admin', adminroute);
+
+app.use('/products', productroute);
 
 app.listen(process.env.PORT, () => {
   console.log(
