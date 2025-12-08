@@ -511,7 +511,7 @@ const CheckOutAddressPage = ({ product, quantity = 1, onBack, onContinue }) => {
                 <div className="border-b border-gray-200 pb-4 mb-4">
                   <div className="flex gap-3">
                     <img
-                      src={product.imageUrls}
+                      src={product.imageUrls || product.imageUrl}
                       alt={product.name}
                       className="w-20 h-20 object-contain bg-gray-100 rounded-lg"
                     />

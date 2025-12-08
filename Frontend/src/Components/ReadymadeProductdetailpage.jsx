@@ -32,35 +32,12 @@ const ReadymadeProductDetailPage = () => {
 
   useEffect(() => {
     // Find product based on type and id
-    let allProducts = [];
-
-    switch (type) {
-      case 'professional':
-        allProducts = professionalLaptops;
-        break;
-      case 'development':
-        allProducts = developmentLaptops;
-        break;
-      case 'gaming':
-        allProducts = gamingLaptops;
-        break;
-      case 'generaluse':
-        allProducts = Generateuse;
-        break;
-      default:
-        allProducts = [
-          ...professionalLaptops,
-          ...developmentLaptops,
-          ...gamingLaptops,
-          ...Generateuse,
-        ];
-    }
-
-    const foundProduct = allProducts.find((p) => p.id === parseInt(id));
-    setProduct(foundProduct);
-    if (foundProduct) {
-      setSelectedImage(foundProduct.imageUrls);
-    }
+    fetch(`http://localhost:5000/products/${id}`)
+      .then((data) => data.json())
+      .then((data) => {
+        setProduct(data.product);
+        setSelectedImage(data.product.imageUrls || data.product.imageUrl);
+      });
   }, [type, id]);
 
   const [modal, setmodal] = useState(false);
@@ -204,7 +181,7 @@ const ReadymadeProductDetailPage = () => {
                   Key Features
                 </h3>
                 <ul className="space-y-2">
-                  {product.features.map((feature, index) => (
+                  {product?.features?.map((feature, index) => (
                     <li
                       key={index}
                       className="flex items-start gap-2 text-gray-700"

@@ -11,22 +11,9 @@ import {
   Package,
 } from 'lucide-react';
 
-// Import your data
-import {
-  Processors_CPUs,
-  Motherboards,
-  RAM,
-  storageDevices,
-  graphicsCards,
-  powerSupplies,
-  coolingSystems,
-  cabinets,
-  Monitors,
-  Keyboards,
-  Mice,
-} from '../data/readymade_Product.js';
 import { MdError } from 'react-icons/md';
 import ModalLogin from '../modals/ModalLogin.jsx';
+import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
 
 const CustomProduct = () => {
   const [selectedComponents, setSelectedComponents] = useState({
@@ -43,82 +30,80 @@ const CustomProduct = () => {
     mouse: null,
   });
   const navigate = useNavigate();
-
   const [activeCategory, setActiveCategory] = useState('cpu');
   const [compatibilityIssues, setCompatibilityIssues] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [detailModal, setDetailModal] = useState(null);
   const [loginmodal, setloginmodal] = useState(false);
+  const { ProductPurpose } = useProductTypeContext();
 
-  console.log(selectedComponents);
-
-  const categories = [
+  const [categories, setcategories] = useState([
     {
       id: 'cpu',
       name: 'Processor',
-      data: Processors_CPUs,
+      data: [],
       icon: '🎯',
       color: 'red',
     },
     {
       id: 'motherboard',
       name: 'Motherboard',
-      data: Motherboards,
+      data: [],
       icon: '⚡',
       color: 'blue',
     },
-    { id: 'ram', name: 'RAM', data: RAM, icon: '💾', color: 'green' },
+    { id: 'ram', name: 'RAM', data: [], icon: '💾', color: 'green' },
     {
       id: 'storage',
       name: 'Storage',
-      data: storageDevices,
+      data: [],
       icon: '💿',
       color: 'yellow',
     },
     {
       id: 'gpu',
       name: 'Graphics Card',
-      data: graphicsCards,
+      data: [],
       icon: '🎮',
       color: 'red',
     },
     {
       id: 'psu',
       name: 'Power Supply',
-      data: powerSupplies,
+      data: [],
       icon: '🔌',
       color: 'blue',
     },
     {
       id: 'cooling',
       name: 'Cooling',
-      data: coolingSystems,
+      data: [],
       icon: '❄️',
       color: 'cyan',
     },
     {
       id: 'cabinet',
       name: 'Cabinet',
-      data: cabinets,
+      data: [],
       icon: '📦',
       color: 'gray',
     },
     {
       id: 'monitor',
       name: 'Monitor',
-      data: Monitors,
+      data: [],
       icon: '🖥️',
       color: 'purple',
     },
     {
       id: 'keyboard',
       name: 'Keyboard',
-      data: Keyboards,
+      data: [],
       icon: '⌨️',
       color: 'indigo',
     },
-    { id: 'mouse', name: 'Mouse', data: Mice, icon: '🖱️', color: 'pink' },
-  ];
+    { id: 'mouse', name: 'Mouse', data: [], icon: '🖱️', color: 'pink' },
+  ]);
 
   const colorSchemes = {
     red: 'bg-red-500 hover:bg-red-600 text-white',
@@ -144,6 +129,48 @@ const CustomProduct = () => {
     pink: 'border-pink-500',
   };
 
+  useEffect(() => {
+    function getcatagory(cat) {
+      switch (cat) {
+        case 'cpu':
+          return 'Processor & CPU';
+        case 'motherboard':
+          return 'Motherboard';
+        case 'ram':
+          return 'RAM Module';
+        case 'storage':
+          return 'storageDevices';
+        case 'gpu':
+          return 'graphicsCards';
+        case 'cooling':
+          return 'coolingSystems';
+        case 'cabinet':
+          return 'cabinets';
+        case 'monitor':
+          return 'Monitor';
+        case 'keyboard':
+          return 'Keyboards';
+        case 'mouse':
+          return 'Mouse';
+        case 'psu':
+          return 'powerSupplies';
+        default:
+          return 'Processor & CPU';
+      }
+    }
+    fetch(
+      `http://localhost:5000/products/category/${getcatagory(activeCategory)}`
+    )
+      .then((data) => data.json())
+      .then((data) => {
+        setcategories((prev) =>
+          prev.map((item) =>
+            item.id === activeCategory ? { ...item, data: data.products } : item
+          )
+        );
+      });
+  }, [activeCategory]);
+
   // Check compatibility
   useEffect(() => {
     const issues = [];
@@ -159,7 +186,11 @@ const CustomProduct = () => {
 
     if (ram && motherboard) {
       const ramType = ram.type;
-      if (!motherboard.supported_ram?.includes(ramType)) {
+      if (
+        !motherboard.supported_ram
+          ?.toLowerCase()
+          .includes(ramType.toLowerCase())
+      ) {
         issues.push(`⚠️ RAM type (${ramType}) not supported by motherboard`);
       }
     }
@@ -216,7 +247,7 @@ const CustomProduct = () => {
   };
 
   const isComponentSelected = (category, componentId) => {
-    return selectedComponents[category]?.id === componentId;
+    return selectedComponents[category]?._id === componentId;
   };
 
   const openDetailModal = (component) => {
@@ -335,7 +366,7 @@ const CustomProduct = () => {
   };
 
   const ComponentCard = ({ component, category }) => {
-    const isSelected = isComponentSelected(category, component.id);
+    const isSelected = isComponentSelected(category, component._id);
     const categoryColor =
       categories.find((c) => c.id === category)?.color || 'blue';
 
@@ -524,7 +555,7 @@ const CustomProduct = () => {
                   .find((c) => c.id === activeCategory)
                   ?.data.map((component) => (
                     <ComponentCard
-                      key={component.id}
+                      key={component._id}
                       component={component}
                       category={activeCategory}
                     />

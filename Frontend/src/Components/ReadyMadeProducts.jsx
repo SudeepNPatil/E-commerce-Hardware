@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -32,24 +32,13 @@ export default function ReadyMadeProducts({ purpose }) {
   const { addToCart } = useCartContext();
   const [modal, setmodal] = useState(false);
   const [loginmodal, setloginmodal] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
 
-  // Select correct product list
-  const getProductsByPurpose = () => {
-    switch (selectedPurpose) {
-      case 'gaming':
-        return gamingLaptops || [];
-      case 'professional':
-        return professionalLaptops || [];
-      case 'development':
-        return developmentLaptops || [];
-      case 'general':
-        return Generateuse || [];
-      default:
-        return [];
-    }
-  };
-
-  const allProducts = getProductsByPurpose();
+  useEffect(() => {
+    fetch(`http://localhost:5000/products/laptop/${selectedPurpose}`)
+      .then((data) => data.json())
+      .then((data) => setAllProducts(data.products));
+  }, [selectedPurpose]);
 
   // Unique brands list
   const brands = useMemo(() => {
@@ -114,9 +103,9 @@ export default function ReadyMadeProducts({ purpose }) {
   const ProductCard = ({ product }) => {
     const imgSrc =
       Array.isArray(product.imageUrls) && product.imageUrls.length > 0
-        ? product.imageUrls[0]
-        : typeof product.imageUrls === 'string'
-        ? product.imageUrls
+        ? product.imageUrls[0] || product.imageUrl
+        : typeof product.imageUrls || product.imageUrl === 'string'
+        ? product.imageUrls || product.imageUrl
         : 'https://via.placeholder.com/300x200?text=No+Image';
 
     const handleaddtocart = (product) => {
@@ -131,7 +120,7 @@ export default function ReadyMadeProducts({ purpose }) {
 
     return (
       <Link
-        to={`/Products/${product?.subcategory}/${product?.id}`}
+        to={`/Products/${product?.subcategory}/${product?._id}`}
         className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group"
       >
         <div className="relative h-64 bg-gray-100 overflow-hidden">

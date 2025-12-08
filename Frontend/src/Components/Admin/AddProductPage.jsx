@@ -10,24 +10,17 @@ const AddProductPage = () => {
     price: '',
     stock: '',
     description: '',
-    images: [],
+    image: null,
     features: {},
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // Main product structure
+  // Updated product structure
   const productStructure = {
-    'Ready-made Products': {
-      types: [
-        'Gaming Laptop',
-        'Development Laptop',
-        'Professional Laptop',
-        'Gaming Desktop',
-        'Development Desktop',
-        'Professional Desktop',
-      ],
+    Laptop: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
       features: [
         'processor',
         'ram',
@@ -41,161 +34,192 @@ const AddProductPage = () => {
         'ports',
       ],
     },
-    'Custom PC Components': {
-      types: [
-        'Processors (CPUs)',
-        'Motherboards',
-        'RAM',
-        'Graphics Cards',
-        'Storage Devices',
-        'Power Supplies',
-        'Cooling Systems',
-        'Cabinets',
-        'Monitors',
-        'Keyboards',
-        'Mice',
+    Desktop: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'processor',
+        'ram',
+        'storage',
+        'graphicsCard',
+        'display',
+        'operatingSystem',
+        'warranty',
+        'coolingSystem',
+        'powerSupply',
+        'ports',
       ],
-      features: {
-        'Processors (CPUs)': [
-          'manufacturer',
-          'cores',
-          'threads',
-          'baseClock',
-          'boostClock',
-          'socket',
-          'tdp',
-          'cache',
-          'integratedGraphics',
-        ],
-        Motherboards: [
-          'manufacturer',
-          'socket',
-          'chipset',
-          'formFactor',
-          'ramSlots',
-          'maxRamCapacity',
-          'pciSlots',
-          'm2Slots',
-          'sataSlots',
-          'usbPorts',
-          'networkingChipset',
-        ],
-        RAM: [
-          'manufacturer',
-          'capacity',
-          'memoryType',
-          'speed',
-          'latency',
-          'voltage',
-          'modules',
-          'rgbLighting',
-          'heatSpreader',
-        ],
-        'Graphics Cards': [
-          'manufacturer',
-          'gpu',
-          'vramCapacity',
-          'memoryType',
-          'coreClock',
-          'boostClock',
-          'tdp',
-          'powerConnectors',
-          'displayPorts',
-          'hdmiPorts',
-          'length',
-          'coolingType',
-        ],
-        'Storage Devices': [
-          'manufacturer',
-          'capacity',
-          'storageType',
-          'interface',
-          'formFactor',
-          'readSpeed',
-          'writeSpeed',
-          'tbw',
-          'cache',
-        ],
-        'Power Supplies': [
-          'manufacturer',
-          'wattage',
-          'efficiencyRating',
-          'modularType',
-          'formFactor',
-          'pciePowerConnectors',
-          'sataConnectors',
-          'fanSize',
-          'cableSleeve',
-        ],
-        'Cooling Systems': [
-          'manufacturer',
-          'coolerType',
-          'fanSize',
-          'numberOfFans',
-          'rpm',
-          'noiseLevel',
-          'socketCompatibility',
-          'radiatorSize',
-          'rgbLighting',
-          'tdpRating',
-        ],
-        Cabinets: [
-          'manufacturer',
-          'cabinetType',
-          'formFactor',
-          'material',
-          'sidePanelType',
-          'maxGpuLength',
-          'maxCpuCoolerHeight',
-          'fanSupport',
-          'radiatorSupport',
-          'driveBays',
-          'expansionSlots',
-          'usbPorts',
-          'rgbLighting',
-        ],
-        Monitors: [
-          'manufacturer',
-          'screenSize',
-          'resolution',
-          'panelType',
-          'refreshRate',
-          'responseTime',
-          'aspectRatio',
-          'brightness',
-          'contrastRatio',
-          'hdrSupport',
-          'displayPorts',
-          'hdmiPorts',
-          'vesa',
-          'curvedScreen',
-        ],
-        Keyboards: [
-          'manufacturer',
-          'keyboardType',
-          'switchType',
-          'layout',
-          'connectivity',
-          'backlighting',
-          'keycapMaterial',
-          'wristRest',
-          'hotSwappable',
-          'macroKeys',
-        ],
-        Mice: [
-          'manufacturer',
-          'mouseType',
-          'sensor',
-          'maxDpi',
-          'pollingRate',
-          'numberOfButtons',
-          'connectivity',
-          'weight',
-          'rgbLighting',
-          'programmableButtons',
-          'batteryLife',
-        ],
-      },
+    },
+    'Processors (CPUs)': {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'cores',
+        'threads',
+        'baseClock',
+        'boostClock',
+        'socket',
+        'tdp',
+        'cache',
+        'integratedGraphics',
+      ],
+    },
+    Motherboards: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'socket',
+        'chipset',
+        'formFactor',
+        'ramSlots',
+        'maxRamCapacity',
+        'pciSlots',
+        'm2Slots',
+        'sataSlots',
+        'usbPorts',
+        'networkingChipset',
+      ],
+    },
+    RAM: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'capacity',
+        'memoryType',
+        'speed',
+        'latency',
+        'voltage',
+        'modules',
+        'rgbLighting',
+        'heatSpreader',
+      ],
+    },
+    'Graphics Cards': {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'gpu',
+        'vramCapacity',
+        'memoryType',
+        'coreClock',
+        'boostClock',
+        'tdp',
+        'powerConnectors',
+        'displayPorts',
+        'hdmiPorts',
+        'length',
+        'coolingType',
+      ],
+    },
+    'Storage Devices': {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'capacity',
+        'storageType',
+        'interface',
+        'formFactor',
+        'readSpeed',
+        'writeSpeed',
+        'tbw',
+        'cache',
+      ],
+    },
+    'Power Supplies': {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'wattage',
+        'efficiencyRating',
+        'modularType',
+        'formFactor',
+        'pciePowerConnectors',
+        'sataConnectors',
+        'fanSize',
+        'cableSleeve',
+      ],
+    },
+    'Cooling Systems': {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'coolerType',
+        'fanSize',
+        'numberOfFans',
+        'rpm',
+        'noiseLevel',
+        'socketCompatibility',
+        'radiatorSize',
+        'rgbLighting',
+        'tdpRating',
+      ],
+    },
+    Cabinets: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'cabinetType',
+        'formFactor',
+        'material',
+        'sidePanelType',
+        'maxGpuLength',
+        'maxCpuCoolerHeight',
+        'fanSupport',
+        'radiatorSupport',
+        'driveBays',
+        'expansionSlots',
+        'usbPorts',
+        'rgbLighting',
+      ],
+    },
+    Monitors: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'screenSize',
+        'resolution',
+        'panelType',
+        'refreshRate',
+        'responseTime',
+        'aspectRatio',
+        'brightness',
+        'contrastRatio',
+        'hdrSupport',
+        'displayPorts',
+        'hdmiPorts',
+        'vesa',
+        'curvedScreen',
+      ],
+    },
+    Keyboards: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'keyboardType',
+        'switchType',
+        'layout',
+        'connectivity',
+        'backlighting',
+        'keycapMaterial',
+        'wristRest',
+        'hotSwappable',
+        'macroKeys',
+      ],
+    },
+    Mice: {
+      types: ['Development', 'Gaming', 'Professional', 'General Use'],
+      features: [
+        'manufacturer',
+        'mouseType',
+        'sensor',
+        'maxDpi',
+        'pollingRate',
+        'numberOfButtons',
+        'connectivity',
+        'weight',
+        'rgbLighting',
+        'programmableButtons',
+        'batteryLife',
+      ],
     },
   };
 
@@ -203,6 +227,8 @@ const AddProductPage = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  console.log(formData);
 
   const handleMainCategoryChange = (e) => {
     setFormData({
@@ -213,7 +239,7 @@ const AddProductPage = () => {
       price: '',
       stock: '',
       description: '',
-      images: [],
+      image: null,
       features: {},
     });
   };
@@ -229,31 +255,22 @@ const AddProductPage = () => {
   };
 
   const handleImageUpload = (e) => {
-    const files = Array.from(e.target.files);
-    setFormData((prev) => ({
-      ...prev,
-      images: [...prev.images, ...files],
-    }));
-  };
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const removeImage = (index) => {
     setFormData((prev) => ({
       ...prev,
-      images: prev.images.filter((_, i) => i !== index),
+      image: file,
     }));
   };
 
   const getProductFeatures = () => {
-    if (!formData.mainCategory || !formData.productType) return [];
+    if (!formData.mainCategory) return [];
 
     const category = productStructure[formData.mainCategory];
     if (!category) return [];
 
-    if (formData.mainCategory === 'Ready-made Products') {
-      return category.features;
-    } else {
-      return category.features[formData.productType] || [];
-    }
+    return category.features;
   };
 
   const handleSubmit = async () => {
@@ -282,16 +299,19 @@ const AddProductPage = () => {
       productData.append('price', formData.price);
       productData.append('stock', formData.stock);
       productData.append('description', formData.description);
-      productData.append('features', JSON.stringify(formData.features));
+      let obj = formData.features;
+      for (let key in obj) {
+        productData.append(`${key}`, obj[key]);
+      }
+      productData.append('image', formData.image);
 
-      formData.images.forEach((image) => {
-        productData.append('images', image);
-      });
-
-      const response = await fetch('http://localhost:5000/addproducts', {
-        method: 'POST',
-        body: productData,
-      });
+      const response = await fetch(
+        'http://localhost:5000/products/save-product',
+        {
+          method: 'POST',
+          body: productData,
+        }
+      );
 
       const data = await response.json();
 
@@ -305,7 +325,7 @@ const AddProductPage = () => {
           price: '',
           stock: '',
           description: '',
-          images: [],
+          image: null,
           features: {},
         });
       } else {
@@ -335,7 +355,7 @@ const AddProductPage = () => {
               Add New Product
             </h1>
             <p className="text-gray-600">
-              Add ready-made products or custom PC components to your inventory
+              Add products and PC components to your inventory
             </p>
           </div>
 
@@ -360,7 +380,7 @@ const AddProductPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Main Category *
+                    Product Category *
                   </label>
                   <select
                     name="mainCategory"
@@ -368,7 +388,7 @@ const AddProductPage = () => {
                     onChange={handleMainCategoryChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   >
-                    <option value="">Select Main Category</option>
+                    <option value="">Select Product Category</option>
                     {Object.keys(productStructure).map((cat) => (
                       <option key={cat} value={cat}>
                         {cat}
@@ -379,7 +399,7 @@ const AddProductPage = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Product Type *
+                    Subcategory *
                   </label>
                   <select
                     name="productType"
@@ -388,7 +408,7 @@ const AddProductPage = () => {
                     disabled={!formData.mainCategory}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
-                    <option value="">Select Product Type</option>
+                    <option value="">Select Subcategory</option>
                     {formData.mainCategory &&
                       productStructure[formData.mainCategory].types.map(
                         (type) => (
@@ -522,7 +542,6 @@ const AddProductPage = () => {
                 <input
                   type="file"
                   id="imageUpload"
-                  multiple
                   accept="image/*"
                   onChange={handleImageUpload}
                   className="hidden"
@@ -536,32 +555,34 @@ const AddProductPage = () => {
                     Click to upload images
                   </span>
                   <span className="text-sm text-gray-500 mt-2">
-                    PNG, JPG, JPEG (Max 10MB per file)
+                    PNG, JPG, JPEG (Max 5MB per file)
                   </span>
                 </label>
               </div>
 
-              {formData.images.length > 0 && (
+              {formData.image && (
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6">
-                  {formData.images.map((image, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt={`Preview ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-lg border-2 border-gray-200"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(index)}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                      <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
-                        Image {index + 1}
-                      </div>
+                  <div className="relative group">
+                    <img
+                      src={URL.createObjectURL(formData.image)}
+                      alt="Preview"
+                      className="w-full h-32 object-cover rounded-lg border-2 border-gray-200"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prev) => ({ ...prev, image: null }))
+                      }
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+
+                    <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                      Image
                     </div>
-                  ))}
+                  </div>
                 </div>
               )}
             </div>
