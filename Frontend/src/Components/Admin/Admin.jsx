@@ -1,16 +1,22 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { LuUsersRound } from 'react-icons/lu';
 import { FaCartArrowDown } from 'react-icons/fa';
 import { MdLogout } from 'react-icons/md';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { SiSession } from 'react-icons/si';
 import { RiDashboard3Fill } from 'react-icons/ri';
-import { useState } from 'react';
 import { AiOutlineProduct } from 'react-icons/ai';
 
 export default function Admin() {
-  const [bg, setbg] = useState(0);
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   return (
     <div className="flex flex-row justify-between min-h-[100vh] w-[100vw]">
@@ -23,9 +29,10 @@ export default function Admin() {
         <div className="flex flex-col justify-evenly h-full">
           <Link
             to="/admin/Dashboard"
-            onClick={() => setbg(1)}
             className={`text-center ${
-              bg == 1 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              location.pathname === '/admin/Dashboard'
+                ? 'bg-green-50 border-r-2 border-r-blue-600'
+                : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <RiDashboard3Fill className="text-2xl " />
@@ -34,9 +41,10 @@ export default function Admin() {
 
           <Link
             to="/admin/Users"
-            onClick={() => setbg(2)}
             className={`text-center ${
-              bg == 2 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              location.pathname === '/admin/Users'
+                ? 'bg-green-50 border-r-2 border-r-blue-600'
+                : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <LuUsersRound className="text-2xl " />
@@ -45,9 +53,10 @@ export default function Admin() {
 
           <Link
             to="/admin/addProducts"
-            onClick={() => setbg(3)}
             className={`text-center ${
-              bg == 3 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              location.pathname === '/admin/addProducts'
+                ? 'bg-green-50 border-r-2 border-r-blue-600'
+                : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <AiOutlineProduct className="text-2xl " />
@@ -56,9 +65,10 @@ export default function Admin() {
 
           <Link
             to="/admin/Customorders"
-            onClick={() => setbg(4)}
             className={`text-center ${
-              bg == 4 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              location.pathname === '/admin/Customorders'
+                ? 'bg-green-50 border-r-2 border-r-blue-600'
+                : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <FaCartArrowDown className="text-2xl " />
@@ -67,9 +77,10 @@ export default function Admin() {
 
           <Link
             to="/admin/Readymadeorders"
-            onClick={() => setbg(5)}
             className={`text-center ${
-              bg == 5 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              location.pathname === '/admin/Readymadeorders'
+                ? 'bg-green-50 border-r-2 border-r-blue-600'
+                : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <FaCartArrowDown className="text-2xl " />
@@ -78,9 +89,10 @@ export default function Admin() {
 
           <Link
             to="/admin/Session"
-            onClick={() => setbg(6)}
             className={`text-center ${
-              bg == 6 ? 'bg-green-50 border-r-2 border-r-blue-600' : ''
+              location.pathname === '/admin/Session'
+                ? 'bg-green-50 border-r-2 border-r-blue-600'
+                : ''
             } text-black w-full h-14 flex flex-row pl-16 items-center gap-3 hover:bg-green-50 hover:border-r-blue-600 hover:border-r-2`}
           >
             <SiSession className="text-2xl " />
@@ -89,7 +101,9 @@ export default function Admin() {
         </div>
 
         <div
-          onClick={() => navigate('/Home')}
+          onClick={() => (
+            localStorage.removeItem('token'), (window.location.href = '/Home')
+          )}
           className="flex flex-row pl-16 items-center gap-3 p-8 border-t hover:text-red-500 hover:cursor-pointer"
         >
           <MdLogout className="text-3xl " />

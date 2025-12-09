@@ -2,6 +2,7 @@ import logo from '../assets/logo.png';
 import { TiSocialFacebook } from 'react-icons/ti';
 import { IoLogoInstagram } from 'react-icons/io5';
 import { FaXTwitter } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 export default function () {
   return (
@@ -23,11 +24,15 @@ export default function () {
           </p>
 
           <div className="flex flex-row gap-10 mt-8">
-            <TiSocialFacebook className="text-4xl p-2 shadow-3xl rounded-full bg-white" />
-
-            <IoLogoInstagram className="text-4xl p-2 shadow-3xl rounded-full bg-white" />
-
-            <FaXTwitter className="text-4xl p-2 shadow-3xl rounded-full bg-white" />
+            <a href="https://facebook.com">
+              <TiSocialFacebook className="text-4xl p-2 shadow-3xl rounded-full bg-white" />
+            </a>
+            <a href="https://www.instagram.com/">
+              <IoLogoInstagram className="text-4xl p-2 shadow-3xl rounded-full bg-white" />
+            </a>
+            <a href="https://x.com">
+              <FaXTwitter className="text-4xl p-2 shadow-3xl rounded-full bg-white" />
+            </a>
           </div>
         </div>
 
@@ -35,20 +40,20 @@ export default function () {
           <div className="flex flex-col">
             <h1 className="text-black text-2xl font-bold pt-2">Company</h1>
             <ul className="flex flex-col text-gray-700  text-lg gap-2.5 mt-8">
-              <li>Home</li>
-              <li>Products</li>
-              <li>list </li>
-              <li>some more</li>
+              <Link to={`/Home`}>Home</Link>
+              <Link to={`Products`}>Products</Link>
+              <Link to={`/Cantact`}>Contact </Link>
+              <Link to={`/About`}> About us</Link>
             </ul>
           </div>
 
           <div className="flex flex-col">
             <h1 className="text-black text-2xl font-bold pt-2">information</h1>
             <ul className="flex flex-col text-gray-700  text-lg gap-2.5 mt-8">
-              <li>Help/FAQ</li>
-              <li>About us</li>
-              <li>Blog </li>
-              <li>How we work</li>
+              <Link to={`/About`}>Support</Link>
+              <Link to={`/About`}>About us</Link>
+              <Link to={`/Home`}>How we work </Link>
+              <Link to={`/About`}> Know About us</Link>
             </ul>
           </div>
         </div>

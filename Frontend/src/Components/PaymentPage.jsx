@@ -484,7 +484,10 @@ const PaymentPage = ({ orderDetails, onBack, onConfirm }) => {
                 <div className="border-b border-gray-200 pb-4 mb-4">
                   <div className="flex gap-3">
                     <img
-                      src={orderDetails.product.imageUrls}
+                      src={
+                        orderDetails.product.imageUrls ||
+                        orderDetails.product.imageUrl
+                      }
                       alt={orderDetails.product.name}
                       className="w-20 h-20 object-contain bg-gray-100 rounded-lg"
                     />

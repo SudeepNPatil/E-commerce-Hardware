@@ -52,10 +52,10 @@ export default function Customorders() {
           </div>
           <p className="text-2xl text-black font-bold bg-opacity-75">
             total Orders :{' '}
-            <span className="text-yellow-500">{orderlists.length}</span>
+            <span className="text-yellow-500">{orderlists?.length || 0}</span>
           </p>
         </div>
-        {orderlists.length > 0 ? (
+        {orderlists?.length > 0 ? (
           <table className="text-center border-collapse">
             <tr className="h-20">
               <th className="border w-20">Sl.No</th>
@@ -64,7 +64,7 @@ export default function Customorders() {
               <th className="border w-36">status</th>
               <th className="border w-20">Actions</th>
             </tr>
-            {orderlists.map((orders, index) => {
+            {orderlists?.map((orders, index) => {
               count++;
               return (
                 <tr key={index} className="border h-20">
@@ -135,7 +135,6 @@ export default function Customorders() {
                       <option value="outfordelivery">outfordelivery</option>
                       <option value="delivered">delivered</option>
                       <option value="cancle">cancle</option>
-                      <option value="assamblycompleted">assambled</option>
                     </select>
                   </td>
                   <td className="border">

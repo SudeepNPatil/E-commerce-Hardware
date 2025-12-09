@@ -128,7 +128,6 @@ export default function Readymadeorders() {
                       <option value="outfordelivery">outfordelivery</option>
                       <option value="delivered">delivered</option>
                       <option value="cancle">cancle</option>
-                      <option value="assamblycompleted">assambled</option>
                     </select>
                   </td>
                   <td className="border">

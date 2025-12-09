@@ -64,16 +64,22 @@ const CustomOrderPage = () => {
     },
   };
 
-  const getEstimatedDelivery = (orderDate) => {
-    const date = new Date(orderDate);
-    date.setDate(date.getDate() + 5);
-    return date.toLocaleDateString('en-IN', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
+  function formatToReadable(isoString) {
+    const date = new Date(isoString);
+
+    const options = {
       day: 'numeric',
-    });
-  };
+      month: 'short',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    };
+
+    return new Intl.DateTimeFormat('en-GB', options)
+      .format(date)
+      .replace(' at', ',');
+  }
 
   const handleCancelOrder = () => {
     if (!cancelReason.trim()) {
@@ -120,7 +126,7 @@ const CustomOrderPage = () => {
           'outfordelivery',
           'delivered',
         ].includes(currentStatus),
-        date: order.orderedOn,
+        date: order.confirmedOn,
         icon: <CheckCircle className="w-6 h-6" />,
       },
       {
@@ -129,21 +135,21 @@ const CustomOrderPage = () => {
         completed: ['shipped', 'outfordelivery', 'delivered'].includes(
           currentStatus
         ),
-        date: order.orderedOn,
+        date: order.shippedOn,
         icon: <Truck className="w-6 h-6" />,
       },
       {
         status: 'outfordelivery',
         label: 'Out for Delivery',
         completed: ['outfordelivery', 'delivered'].includes(currentStatus),
-        date: order.orderedOn,
+        date: order?.outfordelivaryOn,
         icon: <Truck className="w-6 h-6" />,
       },
       {
         status: 'delivered',
         label: 'Delivered',
         completed: currentStatus === 'delivered',
-        date: order.orderedOn,
+        date: order.deliveredOn,
         icon: <Home className="w-6 h-6" />,
       },
     ];
@@ -253,22 +259,10 @@ const CustomOrderPage = () => {
                       </h4>
                       {step.completed && step.date ? (
                         <p className="text-sm text-green-600 font-semibold mt-1">
-                          {new Date(step.date).toLocaleString('en-IN', {
-                            dateStyle: 'medium',
-                            timeStyle: 'short',
-                          })}
-                        </p>
-                      ) : currentStatus === step.status ? (
-                        <p className="text-sm text-blue-600 font-semibold mt-1">
-                          In Progress
+                          Updated On : {formatToReadable(step.date)}
                         </p>
                       ) : (
-                        <p className="text-sm text-gray-500 mt-1">
-                          Estimated:{' '}
-                          {new Date(step.date).toLocaleDateString('en-IN', {
-                            dateStyle: 'medium',
-                          })}
-                        </p>
+                        <p className="text-sm text-gray-500 mt-1">Pending</p>
                       )}
                     </div>
                   </div>
@@ -411,8 +405,6 @@ const CustomOrderPage = () => {
     );
   }
 
-  console.log(CustomOrder);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-blue-50 to-green-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -462,7 +454,14 @@ const CustomOrderPage = () => {
                         <div className="space-y-1">
                           <div className="flex items-center gap-2 text-sm text-gray-600">
                             <Calendar className="w-4 h-4" />
-                            <span>Ordered : {order.orderedOn}</span>
+                            {order.status === 'delivered' ? (
+                              <span className="text-green-500 font-semibold">
+                                Delivered On :{' '}
+                                {formatToReadable(order.deliveredOn)}{' '}
+                              </span>
+                            ) : (
+                              <span>Ordered On : {order.orderedOn} </span>
+                            )}
                           </div>
                           {status !== 'delivered' && (
                             <div className="flex items-center gap-2 text-sm text-green-600 font-semibold">
@@ -618,10 +617,13 @@ const CustomOrderPage = () => {
                       </button>
                     )}
                     {status === 'delivered' && (
-                      <button className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg">
+                      <Link
+                        to={`/Products`}
+                        className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg"
+                      >
                         <RefreshCw className="w-5 h-5" />
                         Reorder
-                      </button>
+                      </Link>
                     )}
                   </div>
                 </div>

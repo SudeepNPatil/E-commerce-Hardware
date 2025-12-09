@@ -238,7 +238,7 @@ const CustomProduct = () => {
 
   const calculateTotal = () => {
     return Object.values(selectedComponents).reduce((total, component) => {
-      return total + (component?.price || 0);
+      return total + (Number(component?.price) || 0);
     }, 0);
   };
 

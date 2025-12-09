@@ -66,13 +66,14 @@ const CustomConfirmationPage = ({
     };
 
     // Add it to context
-    CustomaddToOrder(newOrder);
 
     let fullorderdetails = {
       ...newOrder,
       userId: logindata.user._id,
-      status: 'confirmed',
+      status: 'placed',
     };
+
+    CustomaddToOrder(fullorderdetails);
 
     fetch('http://localhost:5000/CustomOrders/save-order', {
       method: 'POST',

@@ -216,7 +216,7 @@ const CheckoutPage = () => {
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-gray-700">Assembly Service</span>
                       <span className="font-semibold text-green-600">
-                        ₹{checkoutData.technician.price.toLocaleString()}
+                        ₹{checkoutData.technician.price?.toLocaleString()}
                       </span>
                     </div>
                   )}
@@ -229,7 +229,7 @@ const CheckoutPage = () => {
                       (checkoutData.technician !== 'skip'
                         ? checkoutData.technician?.price || 0
                         : 0)
-                    ).toLocaleString()}
+                    )?.toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -326,10 +326,13 @@ const CheckoutAddress = ({ onSubmit, initialData }) => {
     }
     onSubmit({
       ...formData,
-      technician: {
-        ...selectedTechnician,
-        slot: technicianSlots[selectedTechnician?.id] || null,
-      },
+      technician:
+        selectedTechnician !== 'skip'
+          ? {
+              ...selectedTechnician,
+              slot: technicianSlots[selectedTechnician?.id] || null,
+            }
+          : 'skip',
     });
   };
 

@@ -7,7 +7,7 @@ import {
   RotateCcw,
   Star,
 } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 // Import your data
 import {
@@ -19,16 +19,21 @@ import {
 import { useCartContext } from '../Context/CartContext.jsx';
 import { useWishlistContext } from '../Context/WishlistContext.jsx';
 import ModalMediam from '../modals/ModalMediam.jsx';
+import { useLogincontext } from '../Context/LoginContext.jsx';
+import ModalLogin from '../modals/ModalLogin.jsx';
+import { MdError } from 'react-icons/md';
 
 const ReadymadeProductDetailPage = () => {
   const { type, id } = useParams();
   const { Cartitem, addToCart } = useCartContext();
+  const { logindata } = useLogincontext();
   const navigate = useNavigate();
   const { addToWishlist } = useWishlistContext();
   const [product, setProduct] = useState(null);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState('');
+  const [loginmodal, setloginmodal] = useState(false);
 
   useEffect(() => {
     // Find product based on type and id
@@ -43,11 +48,19 @@ const ReadymadeProductDetailPage = () => {
   const [modal, setmodal] = useState(false);
 
   const handleAddToCart = (data) => {
+    if (!localStorage.getItem('token')) {
+      setloginmodal(true);
+      return;
+    }
     setmodal(true);
     addToCart(data);
   };
 
   const handleBuyNow = (product) => {
+    if (!localStorage.getItem('token')) {
+      setloginmodal(true);
+      return;
+    }
     navigate('/Checkout', { state: product });
   };
 
@@ -293,6 +306,25 @@ const ReadymadeProductDetailPage = () => {
           </div>
         </div>
       </ModalMediam>
+
+      <ModalLogin isOpen={loginmodal} onClose={() => setloginmodal(false)}>
+        <div className="flex flex-col justify-center items-center gap-2">
+          <MdError size={60} className="text-center text-red-600" />
+          <h1 className="text-center text-2xl text-black font-semibold">
+            Your are not loged in yet !
+          </h1>
+          <p className="text-gray-700 text-center">
+            You need login to add to cart and order your products , please login
+            and continue.
+          </p>
+          <Link
+            to={`/login`}
+            className="text-white text-center bg-red-500 w-full py-2 mt-2 hover:bg-red-300 hover:text-red-500 hover:font-semibold rounded-xl"
+          >
+            Login
+          </Link>
+        </div>
+      </ModalLogin>
     </div>
   );
 };

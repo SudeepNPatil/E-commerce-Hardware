@@ -37,7 +37,7 @@ const ConfirmationPage = ({ orderDetails }) => {
     let fullorderdetails = {
       ...orderDetails,
       userId: logindata.user._id,
-      status: 'confirmed',
+      status: 'placed',
       totalAmount: total,
     };
 
@@ -317,7 +317,10 @@ const ConfirmationPage = ({ orderDetails }) => {
               {orderDetails?.product && (
                 <div className="flex gap-6 border-b border-gray-200 pb-6 mb-6">
                   <img
-                    src={orderDetails.product.imageUrls}
+                    src={
+                      orderDetails.product.imageUrls ||
+                      orderDetails.product.imageUrl
+                    }
                     alt={orderDetails.product.name}
                     className="w-32 h-32 object-contain bg-gray-100 rounded-lg"
                   />

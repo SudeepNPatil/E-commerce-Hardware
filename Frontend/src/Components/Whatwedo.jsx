@@ -63,7 +63,7 @@ export default function Whatwedo() {
         <h1 className="text-center text-5xl font-bold text-black mt-5">
           Let's meet the expert.
         </h1>
-        <div className="flex flex-row justify-around items-center mt-20">
+        <div className="flex flex-row justify-around items-center mt-20 relative">
           <div className="rounded-full flex flex-col justify-end items-center border-2 border-white rounded-tr-3xl w-60 h-60 bg-blue-300 shadow-2xl relative">
             <div className="bg-white rounded-full w-20 h-20 absolute bottom-0 z-40 right-0 text-blue-500 text-5xl font-bold flex flex-col justify-center items-center">
               in
@@ -75,6 +75,10 @@ export default function Whatwedo() {
                 className="object-cover h-56"
               />
             </div>
+
+            <h1 className="text-2xl font-semibold text-blue-500 absolute -bottom-16">
+              Rajesh Kumar
+            </h1>
           </div>
 
           <div className="rounded-full  border-2 border-white rounded-tr-3xl w-60 h-60 bg-yellow-300 shadow-2xl relative flex flex-col justify-end items-center">
@@ -88,6 +92,10 @@ export default function Whatwedo() {
                 className="object-cover h-56"
               />
             </div>
+
+            <h1 className="text-2xl font-semibold text-yellow-500 absolute -bottom-16">
+              Amit Sharma
+            </h1>
           </div>
 
           <div className="rounded-full  border-2 border-white rounded-tr-3xl w-60 h-60 bg-red-400 shadow-2xl relative flex flex-col justify-end items-center">
@@ -101,6 +109,10 @@ export default function Whatwedo() {
                 className="object-cover h-56"
               />
             </div>
+
+            <h1 className="text-2xl font-semibold text-red-500 absolute -bottom-16">
+              Priya Patel
+            </h1>
           </div>
         </div>
       </div>

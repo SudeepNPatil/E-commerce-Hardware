@@ -292,7 +292,41 @@ const AddProductPage = () => {
 
     try {
       const productData = new FormData();
-      productData.append('category', formData.mainCategory);
+
+      function getcatagory(cat) {
+        switch (cat) {
+          case 'Processors (CPUs)':
+            return 'Processor & CPU';
+          case 'Motherboards':
+            return 'Motherboard';
+          case 'RAM':
+            return 'RAM Module';
+          case 'Storage Devices':
+            return 'storageDevices';
+          case 'Graphics Cards':
+            return 'graphicsCards';
+          case 'Cooling Systems':
+            return 'coolingSystems';
+          case 'Cabinets':
+            return 'cabinets';
+          case 'Monitors':
+            return 'Monitor';
+          case 'Keyboards':
+            return 'Keyboards';
+          case 'Mice':
+            return 'Mouse';
+          case 'Power Supplies':
+            return 'powerSupplies';
+          case 'Laptop':
+            return 'laptop';
+          case 'Desktop':
+            return 'desktop';
+          default:
+            return 'Processor & CPU';
+        }
+      }
+
+      productData.append('category', getcatagory(formData.mainCategory));
       productData.append('subcategory', formData.productType);
       productData.append('name', formData.name);
       productData.append('brand', formData.brand);

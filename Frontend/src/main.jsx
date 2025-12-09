@@ -101,28 +101,27 @@ const myrouter = createBrowserRouter([
     element: <Admin />,
     children: [
       {
-        index: true,
-        path: '/admin/Dashboard',
+        path: 'Dashboard',
         element: <Dashboard />,
       },
       {
-        path: '/admin/Users',
+        path: 'Users',
         element: <Users />,
       },
       {
-        path: '/admin/addProducts',
+        path: 'addProducts',
         element: <AddProductPage />,
       },
       {
-        path: '/admin/Readymadeorders',
+        path: 'Readymadeorders',
         element: <Readymadeorders />,
       },
       {
-        path: '/admin/Customorders',
+        path: 'Customorders',
         element: <Customorders />,
       },
       {
-        path: '/admin/Session',
+        path: 'Session',
         element: <Session />,
       },
     ],

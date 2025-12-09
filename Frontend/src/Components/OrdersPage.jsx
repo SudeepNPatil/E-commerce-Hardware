@@ -16,6 +16,7 @@ import {
   ShoppingBag,
   Phone,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const OrdersPage = () => {
   const { Order, RemoveFromOrder } = useOrderContext();
@@ -57,19 +58,25 @@ const OrdersPage = () => {
     },
   };
 
+  function formatToReadable(isoString) {
+    const date = new Date(isoString);
+
+    const options = {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    };
+
+    return new Intl.DateTimeFormat('en-GB', options)
+      .format(date)
+      .replace(' at', ',');
+  }
+
   const getOrderStatus = (order) => {
     return order?.status || 'placed';
-  };
-
-  const getEstimatedDelivery = (orderDate) => {
-    const date = new Date(orderDate);
-    date.setDate(date.getDate() + 5);
-    return date.toLocaleDateString('en-IN', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
   };
 
   const handleCancelOrder = () => {
@@ -95,40 +102,42 @@ const OrdersPage = () => {
       {
         status: 'placed',
         label: 'Order Placed',
-        completed: true,
-        date: order.timestamp,
+        completed: false,
+        date: order.orderedOn,
       },
       {
         status: 'confirmed',
         label: 'Order Confirmed',
-        completed: true,
-        date: order.timestamp,
+        completed: false,
+        date: order.confirmedOn,
       },
-      { status: 'shipped', label: 'Shipped', completed: false, date: null },
+      {
+        status: 'shipped',
+        label: 'Shipped',
+        completed: false,
+        date: order.shippedOn,
+      },
       {
         status: 'outfordelivery',
         label: 'Out for Delivery',
         completed: false,
-        date: null,
+        date: order.outfordeliveryOn,
       },
-      { status: 'delivered', label: 'Delivered', completed: false, date: null },
+      {
+        status: 'delivered',
+        label: 'Delivered',
+        completed: false,
+        date: order.deliveredOn,
+      },
     ];
     const currentStatus = order.status;
-    let stop = false;
+    const currentIndex = trackingSteps.findIndex(
+      (step) => step.status === order.status
+    );
 
-    for (let i = 0; i < trackingSteps.length; i++) {
-      if (stop) {
-        trackingSteps[i].completed = false;
-        continue;
-      }
-
-      if (trackingSteps[i].status === currentStatus) {
-        trackingSteps[i].completed = true;
-        stop = true;
-      } else {
-        trackingSteps[i].completed = true;
-      }
-    }
+    trackingSteps.forEach((step, index) => {
+      step.completed = index <= currentIndex;
+    });
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -151,7 +160,7 @@ const OrdersPage = () => {
           <div className="p-6">
             <div className="flex gap-4 bg-gray-50 rounded-lg p-4 mb-6">
               <img
-                src={order.product.imageUrls}
+                src={order.product.imageUrls || order.product.imageUrl}
                 alt={order.product.name}
                 className="w-24 h-24 object-contain bg-white rounded-lg"
               />
@@ -201,15 +210,11 @@ const OrdersPage = () => {
                     >
                       {step.label}
                     </h3>
-                    {step.date && (
-                      <p className="text-sm text-gray-600">
-                        {new Date(step.date).toLocaleString('en-IN', {
-                          dateStyle: 'medium',
-                          timeStyle: 'short',
-                        })}
+                    {step.date && step.completed ? (
+                      <p className="text-sm text-black">
+                        {formatToReadable(step.date)}
                       </p>
-                    )}
-                    {!step.completed && (
+                    ) : (
                       <p className="text-sm text-gray-500">Pending</p>
                     )}
                   </div>
@@ -386,12 +391,20 @@ const OrdersPage = () => {
                           <div className="flex items-center gap-2 text-sm text-gray-600">
                             <Calendar className="w-4 h-4" />
                             <span>
-                              Ordered: {order?.orderedOn || 'not provided'}
+                              Ordered On: {order?.orderedOn || 'not provided'}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 text-sm text-green-600 font-semibold">
                             <Truck className="w-4 h-4" />
-                            <span>Arrives by: {estimatedDelivery}</span>
+                            {order.status === 'delivered' ? (
+                              <span>
+                                {' '}
+                                Delivered On :{' '}
+                                {formatToReadable(order?.deliveredOn)}
+                              </span>
+                            ) : (
+                              <span>Arrives by: {estimatedDelivery}</span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -414,7 +427,7 @@ const OrdersPage = () => {
 
                   <div className="flex gap-6 mb-4">
                     <img
-                      src={order.product.imageUrls}
+                      src={order.product.imageUrls || order.product.imageUrl}
                       alt={order.product.name}
                       className="w-32 h-32 object-contain bg-gray-100 rounded-lg flex-shrink-0"
                     />
@@ -498,10 +511,13 @@ const OrdersPage = () => {
                       </button>
                     )}
                     {status === 'delivered' && (
-                      <button className="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2">
+                      <Link
+                        to={`/Products/${order.product.subcategory}/${order.product._id}`}
+                        className="flex-1 bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition-all duration-300 flex items-center justify-center gap-2"
+                      >
                         <RefreshCw className="w-5 h-5" />
                         Reorder
-                      </button>
+                      </Link>
                     )}
                   </div>
                 </div>

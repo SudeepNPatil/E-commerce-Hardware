@@ -48,7 +48,7 @@ export default function () {
 
   return (
     <div className="flex flex-row justify-between px-12 items-center py-4 shadow-sm overflow-x-hidden">
-      <div className="flex flex-row items-center gap-5">
+      <Link to={`/Home`} className="flex flex-row items-center gap-5">
         <img
           src={logo}
           alt="logo"
@@ -57,7 +57,7 @@ export default function () {
         <h1 className="text-black text-opacity-90 font-bold text-2xl cursor-pointer hover:scale-105 duration-300 ease-in-out">
           Hardware Shop
         </h1>
-      </div>
+      </Link>
 
       <div className="flex flex-row gap-16 ml-20 text-lg font-bold text-opacity-60 text-black">
         <Link to={`/Home`}>Home</Link>
