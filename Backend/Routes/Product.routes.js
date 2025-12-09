@@ -70,6 +70,10 @@ router.get('/:category/:subcategory', async (req, res) => {
     category = category.toLowerCase();
     subcategory = subcategory.toLowerCase();
 
+    if (subcategory === 'general') {
+      subcategory = 'generaluse';
+    }
+
     // Rule: laptop OR desktop -> return both
     let categoryList = [];
 

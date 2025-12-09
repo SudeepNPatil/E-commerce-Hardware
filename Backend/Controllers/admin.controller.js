@@ -1,3 +1,8 @@
+import Contact from '../Models/Contact.model.js';
+import CustomOrder from '../Models/CustomOrders.model.js';
+import newsletter from '../Models/newsletter.model.js';
+import Products from '../Models/Product.model.js';
+import ReadymadeOrder from '../Models/ReadymadeOrders.model.js';
 import User from '../Models/User.model.js';
 
 export async function userinfo(req, res) {
@@ -28,5 +33,33 @@ export async function deleteuser(req, res) {
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: 'internal server error', err });
+  }
+}
+
+export async function totalinfo(req, res) {
+  try {
+    const totalUsers = await User.find();
+
+    const totalContacts = await Contact.find();
+
+    const totalNewsletter = await newsletter.find();
+
+    const totalProducts = await Products.find();
+
+    const totalCustomOrders = await CustomOrder.find();
+
+    const totalReadymadeOrders = await ReadymadeOrder.find();
+
+    res.status(200).send({
+      message: 'all the info count',
+      totalUsers: totalUsers.length,
+      totalContacts: totalContacts.length,
+      totalNewsletter: totalNewsletter.length,
+      totalProducts: totalProducts.length,
+      totalCustomOrders: totalCustomOrders.length,
+      totalReadymadeOrders: totalReadymadeOrders.length,
+    });
+  } catch (er) {
+    res.status(500).send({ message: 'internal server error' });
   }
 }

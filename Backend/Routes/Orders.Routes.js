@@ -46,9 +46,25 @@ router.get('/orders/:id', async (req, res) => {
 router.put('/trackorder/:id/:status', async (req, res) => {
   try {
     const { id, status } = req.params;
+
+    const updatedata = { status };
+
+    if (status === 'confirmed') {
+      updatedata.confirmedOn = new Date();
+    }
+    if (status === 'shipped') {
+      updatedata.shippedOn = new Date();
+    }
+    if (status === 'outfordelivery') {
+      updatedata.outfordeliveryOn = new Date();
+    }
+    if (status === 'delivered') {
+      updatedata.deliveredOn = new Date();
+    }
+
     const updatedstatus = await ReadymadeOrder.findByIdAndUpdate(
       id,
-      { status: status },
+      { $set: updatedata },
       {
         new: true,
       }
