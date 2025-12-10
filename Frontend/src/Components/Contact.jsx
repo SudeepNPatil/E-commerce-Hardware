@@ -10,6 +10,8 @@ import ModalLoading from '../modals/ModalLoading';
 import { BiSolidUserX } from 'react-icons/bi';
 import { RxCross2 } from 'react-icons/rx';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export default function Contact() {
   const { logindata } = useLogincontext();
   const [infomodal, setinfomodal] = useState(false);
@@ -45,7 +47,7 @@ export default function Contact() {
       setmodalstate(true);
       const token = localStorage.getItem('token');
 
-      let res = await fetch('http://localhost:5000/Contactinfo', {
+      let res = await fetch(`${baseurl}/Contactinfo`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

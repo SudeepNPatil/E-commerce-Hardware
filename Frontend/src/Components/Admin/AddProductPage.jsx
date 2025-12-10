@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Plus, X, Upload } from 'lucide-react';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 const AddProductPage = () => {
   const [formData, setFormData] = useState({
     mainCategory: '',
@@ -339,13 +341,10 @@ const AddProductPage = () => {
       }
       productData.append('image', formData.image);
 
-      const response = await fetch(
-        'http://localhost:5000/products/save-product',
-        {
-          method: 'POST',
-          body: productData,
-        }
-      );
+      const response = await fetch(`${baseurl}/products/save-product`, {
+        method: 'POST',
+        body: productData,
+      });
 
       const data = await response.json();
 

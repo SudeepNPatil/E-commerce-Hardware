@@ -10,17 +10,13 @@ import {
   HardDrive,
   Monitor,
 } from 'lucide-react';
-import {
-  professionalLaptops,
-  developmentLaptops,
-  gamingLaptops,
-  Generateuse,
-} from '../data/readymade_Product.js';
 import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
 import { useCartContext } from '../Context/CartContext.jsx';
 import ModalMediam from '../modals/ModalMediam.jsx';
 import ModalLogin from '../modals/ModalLogin.jsx';
 import { MdError } from 'react-icons/md';
+
+const baseurl = `${import.meta.env.VITE_API_URL}`;
 
 export default function ReadyMadeProducts({ purpose }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -35,7 +31,7 @@ export default function ReadyMadeProducts({ purpose }) {
   const [allProducts, setAllProducts] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/laptop/${selectedPurpose}`)
+    fetch(`${baseurl}/products/laptop/${selectedPurpose}`)
       .then((data) => data.json())
       .then((data) => setAllProducts(data.products));
   }, [selectedPurpose]);

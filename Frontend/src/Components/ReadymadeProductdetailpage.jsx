@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 // Import your data
 import {
   professionalLaptops,
@@ -37,7 +39,7 @@ const ReadymadeProductDetailPage = () => {
 
   useEffect(() => {
     // Find product based on type and id
-    fetch(`http://localhost:5000/products/${id}`)
+    fetch(`${baseurl}/products/${id}`)
       .then((data) => data.json())
       .then((data) => {
         setProduct(data.product);

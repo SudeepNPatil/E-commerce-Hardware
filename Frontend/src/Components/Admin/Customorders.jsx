@@ -6,19 +6,20 @@ import { AiFillDelete } from 'react-icons/ai';
 import { RiEditBoxFill } from 'react-icons/ri';
 import { FaBagShopping } from 'react-icons/fa6';
 import { useState } from 'react';
+const baseurl = `${import.meta.env.VITE_API_URL}`;
 
 export default function Customorders() {
   let count = 0;
   const [orderlists, setorderlists] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/CustomOrders/allorders')
+    fetch(`${baseurl}/CustomOrders/allorders`)
       .then((data) => data.json())
       .then((data) => setorderlists(data.orders));
   }, []);
 
   const handledelete = (id) => {
-    fetch(`http://localhost:5000/CustomOrders/orders/${id}`, {
+    fetch(`${baseurl}/CustomOrders/orders/${id}`, {
       method: 'DELETE',
     })
       .then((data) => data.json())
@@ -31,7 +32,7 @@ export default function Customorders() {
   };
 
   const handlechnage = (id, status) => {
-    fetch(`http://localhost:5000/CustomOrders/trackorder/${id}/${status}`, {
+    fetch(`${baseurl}/CustomOrders/trackorder/${id}/${status}`, {
       method: 'PUT',
     })
       .then((data) => data.json())

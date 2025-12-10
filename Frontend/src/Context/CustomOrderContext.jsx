@@ -2,6 +2,8 @@ import { createContext, useContext, useState } from 'react';
 import { useLogincontext } from './LoginContext.jsx';
 import { useEffect } from 'react';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export const CustomOrderContext = createContext();
 
 export function CustomOrderContextProvider({ children }) {
@@ -14,7 +16,7 @@ export function CustomOrderContextProvider({ children }) {
       return;
     }
 
-    fetch(`http://localhost:5000/CustomOrders/orders/${id}`)
+    fetch(`${baseurl}/CustomOrders/orders/${id}`)
       .then((data) => data.json())
       .then((data) => setCustomOrder(data.orders || []))
       .catch((err) => console.error(err));

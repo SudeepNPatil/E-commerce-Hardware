@@ -3,6 +3,8 @@ import Headphone from '../assets/Headphone.png';
 import { useState } from 'react';
 import { RxCross2 } from 'react-icons/rx';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export default function Subscribe() {
   const [email, setemail] = useState('');
   const [modal, setmodal] = useState(false);
@@ -15,7 +17,7 @@ export default function Subscribe() {
       return;
     }
 
-    fetch('http://localhost:5000/User/newsletter', {
+    fetch(`${baseurl}/User/newsletter`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

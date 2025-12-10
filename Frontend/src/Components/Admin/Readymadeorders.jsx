@@ -7,18 +7,20 @@ import { RiEditBoxFill } from 'react-icons/ri';
 import { FaBagShopping } from 'react-icons/fa6';
 import { useState } from 'react';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export default function Readymadeorders() {
   let count = 0;
   const [orderlists, setorderlists] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/readymadeOrders/allorders')
+    fetch(`${baseurl}/readymadeOrders/allorders`)
       .then((data) => data.json())
       .then((data) => setorderlists(data.orders));
   }, []);
 
   const handledelete = (id) => {
-    fetch(`http://localhost:5000/readymadeOrders/orders/${id}`, {
+    fetch(`${baseurl}/readymadeOrders/orders/${id}`, {
       method: 'DELETE',
     })
       .then((data) => data.json())
@@ -31,7 +33,7 @@ export default function Readymadeorders() {
   };
 
   const handlechnage = (id, status) => {
-    fetch(`http://localhost:5000/readymadeOrders/trackorder/${id}/${status}`, {
+    fetch(`${baseurl}/readymadeOrders/trackorder/${id}/${status}`, {
       method: 'PUT',
     })
       .then((data) => data.json())

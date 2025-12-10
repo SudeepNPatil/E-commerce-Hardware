@@ -6,6 +6,8 @@ import { FaRegEye } from 'react-icons/fa';
 import { AiFillDelete } from 'react-icons/ai';
 import { RiEditBoxFill, RiNewsLine } from 'react-icons/ri';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export default function Session() {
   let count = 0;
   let count1 = 0;
@@ -14,17 +16,17 @@ export default function Session() {
   let token = localStorage.getItem('token');
 
   useEffect(() => {
-    fetch('http://localhost:5000/User/newsletter')
+    fetch(`${baseurl}/User/newsletter`)
       .then((data) => data.json())
       .then((data) => setNewsletter(data.newsletter));
 
-    fetch('http://localhost:5000/Contactinfo')
+    fetch(`${baseurl}/Contactinfo`)
       .then((data) => data.json())
       .then((data) => setContacts(data.Contacts));
   }, []);
 
   const handledelete = (id) => {
-    fetch(`http://localhost:5000/User/deletenewsletter/${id}`, {
+    fetch(`${baseurl}/User/deletenewsletter/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `${token}`,
@@ -40,7 +42,7 @@ export default function Session() {
   };
 
   const handledeletecontact = (id) => {
-    fetch(`http://localhost:5000/Contactinfo/${id}`, {
+    fetch(`${baseurl}/Contactinfo/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `${token}`,

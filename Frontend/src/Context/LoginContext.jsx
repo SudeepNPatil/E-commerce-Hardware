@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export const LoginContext = createContext();
 
 export function LoginContextProvider({ children }) {
@@ -18,7 +20,7 @@ export function LoginContextProvider({ children }) {
       return;
     }
 
-    fetch('http://localhost:5000/User/verify', {
+    fetch(`${baseurl}/User/verify`, {
       headers: {
         Authorization: `${token}`,
       },

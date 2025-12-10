@@ -22,6 +22,8 @@ export default function AccountInfoPage() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   let orders = [];
 
+  const baseurl = `${import.meta.env.VITE_API_URL}`;
+
   const handleLogout = () => {
     setShowDeleteModal(false);
     setShowModal(true);
@@ -38,7 +40,7 @@ export default function AccountInfoPage() {
     setloadingmodal(true);
     setShowDeleteModal(false);
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5000/User/${logindata?.user?._id}`, {
+    fetch(`${baseurl}/User/${logindata?.user?._id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `${token}`,

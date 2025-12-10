@@ -22,7 +22,6 @@ export default function () {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  console.log(logindata);
   useEffect(() => {
     const handleOutsideClick = () => {
       setOpen(false);

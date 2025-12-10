@@ -11,6 +11,8 @@ import { RxCross1 } from 'react-icons/rx';
 import { TbLockOpen } from 'react-icons/tb';
 import ModalLoading from '../modals/ModalLoading';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export default function Signup() {
   const [nextStep, setNextStep] = useState(false);
   const [warnig, setwarning] = useState(false);
@@ -52,7 +54,7 @@ export default function Signup() {
     setloadingmodal(true);
 
     try {
-      let response = await fetch('http://localhost:5000/User/signup', {
+      let response = await fetch(`${baseurl}/User/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { createContext, useContext, useState } from 'react';
 import { useLogincontext } from './LoginContext.jsx';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export const OrderContext = createContext();
 
 export function OrderContextProvider({ children }) {
@@ -14,7 +16,7 @@ export function OrderContextProvider({ children }) {
       return;
     }
 
-    fetch(`http://localhost:5000/readymadeOrders/orders/${id}`)
+    fetch(`${baseurl}/readymadeOrders/orders/${id}`)
       .then((data) => data.json())
       .then((data) => setOrder(data.orders || []))
       .catch((err) => console.error(err));

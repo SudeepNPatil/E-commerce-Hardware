@@ -14,6 +14,7 @@ import {
 import { MdError } from 'react-icons/md';
 import ModalLogin from '../modals/ModalLogin.jsx';
 import { useProductTypeContext } from '../Context/ProductTypeContext.jsx';
+const baseurl = `${import.meta.env.VITE_API_URL}`;
 
 const CustomProduct = () => {
   const [selectedComponents, setSelectedComponents] = useState({
@@ -158,9 +159,7 @@ const CustomProduct = () => {
           return 'Processor & CPU';
       }
     }
-    fetch(
-      `http://localhost:5000/products/category/${getcatagory(activeCategory)}`
-    )
+    fetch(`${baseurl}/products/category/${getcatagory(activeCategory)}`)
       .then((data) => data.json())
       .then((data) => {
         setcategories((prev) =>

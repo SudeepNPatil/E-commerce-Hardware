@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 const OrdersPage = () => {
   const { Order, RemoveFromOrder } = useOrderContext();
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -85,7 +87,7 @@ const OrdersPage = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/readymadeOrders/orders/${selectedOrder._id}`, {
+    fetch(`${baseurl}/readymadeOrders/orders/${selectedOrder._id}`, {
       method: 'DELETE',
     })
       .then((data) => data.json())

@@ -20,6 +20,8 @@ import { useCustomOrderContext } from '../Context/CustomOrderContext.jsx';
 import { Link } from 'react-router-dom';
 import { useLogincontext } from '../Context/LoginContext.jsx';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 const CustomConfirmationPage = ({
   orderId,
   address,
@@ -75,7 +77,7 @@ const CustomConfirmationPage = ({
 
     CustomaddToOrder(fullorderdetails);
 
-    fetch('http://localhost:5000/CustomOrders/save-order', {
+    fetch(`${baseurl}/CustomOrders/save-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(fullorderdetails),

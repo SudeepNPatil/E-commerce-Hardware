@@ -10,6 +10,8 @@ import { MdBlockFlipped } from 'react-icons/md';
 import { TbLockOpen } from 'react-icons/tb';
 import { useLogincontext } from '../Context/LoginContext.jsx';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export default function Login() {
   const { logindata, setlogininfo } = useLogincontext();
 
@@ -47,7 +49,7 @@ export default function Login() {
     }
     setloadingmodal(true);
     try {
-      const res = await fetch('http://localhost:5000/User/login', {
+      const res = await fetch(`${baseurl}/User/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

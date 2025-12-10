@@ -6,13 +6,15 @@ import { FaRegEye } from 'react-icons/fa';
 import { AiFillDelete } from 'react-icons/ai';
 import { RiEditBoxFill } from 'react-icons/ri';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 export default function Users() {
   let count = 0;
   const [users, setusers] = useState([]);
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    fetch('http://localhost:5000/admin/userinfo', {
+    fetch(`${baseurl}/admin/userinfo`, {
       headers: {
         Authorization: `${token}`,
       },
@@ -22,7 +24,7 @@ export default function Users() {
   }, []);
 
   const handledelete = (id) => {
-    fetch(`http://localhost:5000/admin/deleteuser/${id}`, {
+    fetch(`${baseurl}/admin/deleteuser/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `${token}`,

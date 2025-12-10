@@ -17,6 +17,8 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useLogincontext } from '../Context/LoginContext';
 
+const baseurl = `${import.meta.env.VITE_API_URL}`;
+
 const ConfirmationPage = ({ orderDetails }) => {
   const [showAnimation, setShowAnimation] = useState(true);
   const [showConfetti, setShowConfetti] = useState(true);
@@ -41,7 +43,7 @@ const ConfirmationPage = ({ orderDetails }) => {
       totalAmount: total,
     };
 
-    fetch('http://localhost:5000/readymadeOrders/save-order', {
+    fetch(`${baseurl}/readymadeOrders/save-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(fullorderdetails),
