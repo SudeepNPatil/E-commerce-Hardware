@@ -48,8 +48,8 @@ this is where we stand out as new feature.
 
 ### Account Info
 
-(<img width="2644" height="2268" alt="ecommercehardware netlify app_Products (2)" src="https://github.com/user-attachments/assets/4bd7a96c-9d40-4747-bb23-4feb28f757cf" />
-)
+<img width="2644" height="2268" alt="ecommercehardware netlify app_Products (2)" src="https://github.com/user-attachments/assets/4bd7a96c-9d40-4747-bb23-4feb28f757cf" />
+
 
 
 ## Installation 
